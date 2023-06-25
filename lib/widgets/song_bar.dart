@@ -16,59 +16,7 @@ class SongBar extends StatelessWidget {
         border: Border.all(color: Colors.black, width: 1),
       ),
       child: InkWell(
-        onLongPress: () {
-          showAdaptiveActionSheet(
-            androidBorderRadius: 10,
-            context: context,
-            actions: <BottomSheetAction>[
-              BottomSheetAction(
-                title: const Row(
-                  children: [
-                    Icon(Icons.download),
-                    Padding(
-                      padding: EdgeInsets.only(left: 10.0),
-                      child: Text(
-                        'Download',
-                        textAlign: TextAlign.start,
-                      ),
-                    ),
-                  ],
-                ),
-                onPressed: (_) {},
-              ),
-              BottomSheetAction(
-                title: const Row(
-                  children: [
-                    Icon(Icons.add_box_outlined),
-                    Padding(
-                      padding: EdgeInsets.only(left: 10.0),
-                      child: Text(
-                        'Add to Playlist',
-                        textAlign: TextAlign.start,
-                      ),
-                    ),
-                  ],
-                ),
-                onPressed: (_) {},
-              ),
-              BottomSheetAction(
-                title: const Row(
-                  children: [
-                    Icon(Icons.favorite),
-                    Padding(
-                      padding: EdgeInsets.only(left: 10.0),
-                      child: Text(
-                        'Like',
-                        textAlign: TextAlign.start,
-                      ),
-                    ),
-                  ],
-                ),
-                onPressed: (_) {},
-              ),
-            ],
-          );
-        },
+        onLongPress: () => openBottomMenu(context),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -136,7 +84,7 @@ class SongBar extends StatelessWidget {
                   icon: const Icon(Icons.favorite_border_rounded),
                 ),
                 IconButton(
-                  onPressed: () {},
+                  onPressed: () => openBottomMenu(context),
                   icon: const Icon(Icons.more_vert_outlined),
                 ),
               ],
@@ -146,4 +94,58 @@ class SongBar extends StatelessWidget {
       ),
     );
   }
+}
+
+dynamic openBottomMenu(context) {
+  return showAdaptiveActionSheet(
+    androidBorderRadius: 10,
+    context: context,
+    actions: <BottomSheetAction>[
+      BottomSheetAction(
+        title: const Row(
+          children: [
+            Icon(Icons.download),
+            Padding(
+              padding: EdgeInsets.only(left: 10.0),
+              child: Text(
+                'Download',
+                textAlign: TextAlign.start,
+              ),
+            ),
+          ],
+        ),
+        onPressed: (_) {},
+      ),
+      BottomSheetAction(
+        title: const Row(
+          children: [
+            Icon(Icons.add_box_outlined),
+            Padding(
+              padding: EdgeInsets.only(left: 10.0),
+              child: Text(
+                'Add to Playlist',
+                textAlign: TextAlign.start,
+              ),
+            ),
+          ],
+        ),
+        onPressed: (_) {},
+      ),
+      BottomSheetAction(
+        title: const Row(
+          children: [
+            Icon(Icons.favorite),
+            Padding(
+              padding: EdgeInsets.only(left: 10.0),
+              child: Text(
+                'Like',
+                textAlign: TextAlign.start,
+              ),
+            ),
+          ],
+        ),
+        onPressed: (_) {},
+      ),
+    ],
+  );
 }

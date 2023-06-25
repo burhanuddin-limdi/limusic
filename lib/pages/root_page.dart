@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_snake_navigationbar/flutter_snake_navigationbar.dart';
+import 'package:limusic/blocs/root_bloc/root_bloc.dart';
+import 'package:limusic/blocs/root_bloc/root_route.dart';
 import './home_page.dart';
 import './search_page.dart';
-import './playlists_page.dart';
+import './library_page.dart';
 
 class RootPage extends StatefulWidget {
   const RootPage({super.key});
@@ -12,7 +15,13 @@ class RootPage extends StatefulWidget {
 }
 
 class RootPageState extends State<RootPage> {
-  List screens = [const HomePage(), SearchPage(), const PlaylistsPage()];
+  final RootBloc rootBloc = RootBloc();
+  List screens = [const HomePage(), const SearchPage(), const LibraryPage()];
+  @override
+  void initState() {
+    rootBloc.add(ChangeRootRouteEvent(const HomePage()));
+    super.initState();
+  }
 
   int selectedIndex = 0;
   SnakeBarBehaviour snakeBarStyle = SnakeBarBehaviour.floating;
@@ -29,35 +38,44 @@ class RootPageState extends State<RootPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: screens[selectedIndex],
-      bottomNavigationBar: SnakeNavigationBar.color(
-        behaviour: snakeBarStyle,
-        snakeShape: snakeShape,
-        shape: bottomBarShape,
-        snakeViewColor: selectedColor,
-        selectedItemColor:
-            snakeShape == SnakeShape.indicator ? selectedColor : null,
-        unselectedItemColor: unselectedColor,
-        showUnselectedLabels: false,
-        showSelectedLabels: false,
-        currentIndex: selectedIndex,
-        onTap: (index) => setState(() => selectedIndex = index),
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'home',
+    return BlocConsumer<RootBloc, RootState>(
+      bloc: rootBloc,
+      listener: (context, state) {},
+      builder: (context, state) {
+        return Scaffold(
+          body: rootRoute,
+          bottomNavigationBar: SnakeNavigationBar.color(
+            behaviour: snakeBarStyle,
+            snakeShape: snakeShape,
+            shape: bottomBarShape,
+            snakeViewColor: selectedColor,
+            selectedItemColor:
+                snakeShape == SnakeShape.indicator ? selectedColor : null,
+            unselectedItemColor: unselectedColor,
+            showUnselectedLabels: false,
+            showSelectedLabels: false,
+            currentIndex: selectedIndex,
+            onTap: (index) {
+              setState(() => selectedIndex = index);
+              rootBloc.add(ChangeRootRouteEvent(screens[selectedIndex]));
+            },
+            items: const [
+              BottomNavigationBarItem(
+                icon: Icon(Icons.home),
+                label: 'home',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.search),
+                label: 'search',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.library_music),
+                label: 'playlists',
+              ),
+            ],
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.search),
-            label: 'search',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.library_music),
-            label: 'playlists',
-          ),
-        ],
-      ),
+        );
+      },
     );
   }
 }
