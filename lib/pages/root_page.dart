@@ -16,10 +16,16 @@ class RootPage extends StatefulWidget {
 
 class RootPageState extends State<RootPage> {
   final RootBloc rootBloc = RootBloc();
-  List screens = [const HomePage(), const SearchPage(), const LibraryPage()];
+  List screens = [];
   @override
   void initState() {
-    rootBloc.add(ChangeRootRouteEvent(const HomePage()));
+    // rootBloc.add(ChangeRootRouteEvent(HomePage(rootBloc: rootBloc)));
+    rootBloc.add(ChangeRootRouteEvent(LibraryPage()));
+    screens = [
+      HomePage(rootBloc: rootBloc),
+      const SearchPage(),
+      const LibraryPage()
+    ];
     super.initState();
   }
 

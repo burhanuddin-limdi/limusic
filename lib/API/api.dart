@@ -28,3 +28,7 @@ Future getTopDaily() async {
       await yt.playlists.getVideos(topDailyMusicId).take(10).toList();
   return playlist;
 }
+
+Future getPlaylist(String id) async {
+  return await yt.playlists.getVideos(id).toList();
+}

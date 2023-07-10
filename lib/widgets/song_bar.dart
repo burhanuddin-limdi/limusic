@@ -42,19 +42,16 @@ class SongBar extends StatelessWidget {
                     Container(
                       alignment: Alignment.centerLeft,
                       padding: const EdgeInsets.only(left: 15),
-                      child: Text(
-                        overflow: TextOverflow.ellipsis,
-                        song.title
-                            .toString()
-                            .split('(')[0]
-                            .replaceAll('&quot;', '"')
-                            .replaceAll('&amp;', '&')
-                            .split('-')[1]
-                            .split('[')[0],
-                        style: const TextStyle(
-                          color: Colors.black,
-                          fontSize: 18,
-                          fontWeight: FontWeight.w700,
+                      width: 200,
+                      child: Expanded(
+                        child: Text(
+                          overflow: TextOverflow.ellipsis,
+                          createTitle(song.title.toString()),
+                          style: const TextStyle(
+                            color: Colors.black,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w700,
+                          ),
                         ),
                       ),
                     ),
@@ -63,6 +60,7 @@ class SongBar extends StatelessWidget {
                     ),
                     Container(
                       padding: const EdgeInsets.only(left: 20),
+                      width: 200,
                       child: Text(
                         overflow: TextOverflow.ellipsis,
                         song.author.toString(),
@@ -148,4 +146,17 @@ dynamic openBottomMenu(context) {
       ),
     ],
   );
+}
+
+String createTitle(String title) {
+  if (title.contains('-')) {
+    title = title.split('-')[1];
+  }
+  if (title.contains('[')) {
+    title = title.split('[')[0];
+  }
+
+  title =
+      title.split('(')[0].replaceAll('&quot;', '"').replaceAll('&amp;', '&');
+  return title;
 }
