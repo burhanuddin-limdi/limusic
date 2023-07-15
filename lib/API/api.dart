@@ -1,6 +1,11 @@
+import 'package:hive/hive.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 
+import '../services/data_manager.dart';
+
 final yt = YoutubeExplode();
+
+List userPlaylists = Hive.box('user').get('playlists', defaultValue: []);
 
 String topDailyMusicId = 'PLx0sYbCqOb8Sfi8H4gvgW-vS1g2fkxwLT';
 
@@ -32,3 +37,43 @@ Future getTopDaily() async {
 Future getPlaylist(String id) async {
   return await yt.playlists.getVideos(id).toList();
 }
+
+Future<List> getUserPlaylist() async {
+  // print(userPlaylists);
+  return userPlaylists;
+}
+
+void addUserPlaylist(String playlistName) {
+  final playlsitMap = {
+    'key': playlistName,
+    'value': [],
+  };
+  userPlaylists.add(playlsitMap);
+  print(userPlaylists);
+  addOrUpdateData('user', 'playlists', userPlaylists);
+}
+
+void addSongToUserPlaylist(String playlsitName, String songId) {
+  dynamic foundPlaylist =
+      userPlaylists.firstWhere((element) => element['key'] == playlsitName);
+  foundPlaylist['value'].add(songId);
+  addOrUpdateData('user', 'playlists', userPlaylists);
+}
+
+Future getUserPlaylistSongs(songIds) async {
+  // var video = yt.videos.get('https://youtube.com/watch?v=Dpp1sIL1m5Q');
+  // print(video);
+  // print('songIds' + songIds.toString());
+  List songs = [];
+  for (var songId in songIds) {
+    var song = await yt.videos.get('https://youtube.com/watch?v=$songId');
+    // print(song);
+    songs.add(song);
+  }
+  return songs;
+}
+
+// void runVideo() {
+//   print(userPlaylists);
+//   getUserPlaylistSongs(userPlaylists[0]['value']);
+// }

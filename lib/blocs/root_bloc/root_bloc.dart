@@ -1,8 +1,8 @@
 import 'dart:async';
 
+// ignore: depend_on_referenced_packages
 import 'package:bloc/bloc.dart';
-import 'package:limusic/blocs/root_bloc/root_route.dart';
-import 'package:meta/meta.dart';
+import 'package:flutter/material.dart';
 
 part 'root_event.dart';
 part 'root_state.dart';
@@ -17,3 +17,5 @@ class RootBloc extends Bloc<RootEvent, RootState> {
     emit(ChangeRootRoute(event.route));
   }
 }
+
+Widget rootRoute = Container();

@@ -1,8 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import './pages/root_page.dart';
 
-void main() {
+void main() async {
+  await initialisation();
   runApp(const MyApp());
+}
+
+Future<void> initialisation() async {
+  await Hive.initFlutter();
+  await Hive.openBox('user');
+  // Hive.box('user').clear();
 }
 
 class MyApp extends StatelessWidget {

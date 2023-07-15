@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_snake_navigationbar/flutter_snake_navigationbar.dart';
 import 'package:limusic/blocs/root_bloc/root_bloc.dart';
-import 'package:limusic/blocs/root_bloc/root_route.dart';
+// import 'package:limusic/blocs/root_bloc/root_route.dart';
 import './home_page.dart';
 import './search_page.dart';
 import './library_page.dart';
@@ -19,12 +19,15 @@ class RootPageState extends State<RootPage> {
   List screens = [];
   @override
   void initState() {
-    // rootBloc.add(ChangeRootRouteEvent(HomePage(rootBloc: rootBloc)));
-    rootBloc.add(ChangeRootRouteEvent(LibraryPage()));
+    rootBloc.add(ChangeRootRouteEvent(HomePage(
+      rootBloc: rootBloc,
+    )));
     screens = [
       HomePage(rootBloc: rootBloc),
       const SearchPage(),
-      const LibraryPage()
+      LibraryPage(
+        rootBloc: rootBloc,
+      )
     ];
     super.initState();
   }

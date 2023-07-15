@@ -1,5 +1,5 @@
-import 'package:adaptive_action_sheet/adaptive_action_sheet.dart';
 import 'package:flutter/material.dart';
+import 'bottom_song_menu.dart';
 
 class SongBar extends StatelessWidget {
   const SongBar(this.song, {super.key});
@@ -16,7 +16,7 @@ class SongBar extends StatelessWidget {
         border: Border.all(color: Colors.black, width: 1),
       ),
       child: InkWell(
-        onLongPress: () => openBottomMenu(context),
+        onLongPress: () => openBottomSongMenu(context, song),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -82,7 +82,7 @@ class SongBar extends StatelessWidget {
                   icon: const Icon(Icons.favorite_border_rounded),
                 ),
                 IconButton(
-                  onPressed: () => openBottomMenu(context),
+                  onPressed: () => openBottomSongMenu(context, song),
                   icon: const Icon(Icons.more_vert_outlined),
                 ),
               ],
@@ -94,59 +94,61 @@ class SongBar extends StatelessWidget {
   }
 }
 
-dynamic openBottomMenu(context) {
-  return showAdaptiveActionSheet(
-    androidBorderRadius: 10,
-    context: context,
-    actions: <BottomSheetAction>[
-      BottomSheetAction(
-        title: const Row(
-          children: [
-            Icon(Icons.download),
-            Padding(
-              padding: EdgeInsets.only(left: 10.0),
-              child: Text(
-                'Download',
-                textAlign: TextAlign.start,
-              ),
-            ),
-          ],
-        ),
-        onPressed: (_) {},
-      ),
-      BottomSheetAction(
-        title: const Row(
-          children: [
-            Icon(Icons.add_box_outlined),
-            Padding(
-              padding: EdgeInsets.only(left: 10.0),
-              child: Text(
-                'Add to Playlist',
-                textAlign: TextAlign.start,
-              ),
-            ),
-          ],
-        ),
-        onPressed: (_) {},
-      ),
-      BottomSheetAction(
-        title: const Row(
-          children: [
-            Icon(Icons.favorite),
-            Padding(
-              padding: EdgeInsets.only(left: 10.0),
-              child: Text(
-                'Like',
-                textAlign: TextAlign.start,
-              ),
-            ),
-          ],
-        ),
-        onPressed: (_) {},
-      ),
-    ],
-  );
-}
+// dynamic openBottomMenu(context, dynamic song) {
+//   return showAdaptiveActionSheet(
+//     androidBorderRadius: 10,
+//     context: context,
+//     actions: <BottomSheetAction>[
+//       BottomSheetAction(
+//         title: const Row(
+//           children: [
+//             Icon(Icons.download),
+//             Padding(
+//               padding: EdgeInsets.only(left: 10.0),
+//               child: Text(
+//                 'Download',
+//                 textAlign: TextAlign.start,
+//               ),
+//             ),
+//           ],
+//         ),
+//         onPressed: (_) {},
+//       ),
+//       BottomSheetAction(
+//         title: const Row(
+//           children: [
+//             Icon(Icons.add_box_outlined),
+//             Padding(
+//               padding: EdgeInsets.only(left: 10.0),
+//               child: Text(
+//                 'Add to Playlist',
+//                 textAlign: TextAlign.start,
+//               ),
+//             ),
+//           ],
+//         ),
+//         onPressed: (BuildContext context) {
+//           print(song.id.toString());
+//         },
+//       ),
+//       BottomSheetAction(
+//         title: const Row(
+//           children: [
+//             Icon(Icons.favorite),
+//             Padding(
+//               padding: EdgeInsets.only(left: 10.0),
+//               child: Text(
+//                 'Like',
+//                 textAlign: TextAlign.start,
+//               ),
+//             ),
+//           ],
+//         ),
+//         onPressed: (_) {},
+//       ),
+//     ],
+//   );
+// }
 
 String createTitle(String title) {
   if (title.contains('-')) {
