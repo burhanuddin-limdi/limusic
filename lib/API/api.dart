@@ -30,7 +30,7 @@ Future getvideo() async {
 
 Future getTopDaily() async {
   var playlist =
-      await yt.playlists.getVideos(topDailyMusicId).take(10).toList();
+      await yt.playlists.getVideos(topDailyMusicId).take(25).toList();
   return playlist;
 }
 
@@ -49,7 +49,6 @@ void addUserPlaylist(String playlistName) {
     'value': [],
   };
   userPlaylists.add(playlsitMap);
-  print(userPlaylists);
   addOrUpdateData('user', 'playlists', userPlaylists);
 }
 
