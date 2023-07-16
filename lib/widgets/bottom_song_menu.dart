@@ -91,20 +91,23 @@ dynamic openBottomSongMenu(context, dynamic song) {
                         GestureDetector(
                           onTap: () {},
                           child: const Padding(
-                            padding: EdgeInsets.only(left: 20, top: 20),
+                            padding: EdgeInsets.only(left: 20, top: 25),
                             child: Row(
                               children: [
                                 Icon(
-                                  Icons.download,
+                                  Icons.download_rounded,
                                   color: Colors.white,
-                                  size: 35,
+                                  size: 30,
                                 ),
                                 Padding(
-                                  padding: EdgeInsets.only(left: 15),
+                                  padding: EdgeInsets.only(left: 10),
                                   child: Text(
                                     'Download',
                                     style: TextStyle(
-                                        color: Colors.white, fontSize: 25),
+                                      color: Colors.white,
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w500,
+                                    ),
                                   ),
                                 ),
                               ],
@@ -117,20 +120,23 @@ dynamic openBottomSongMenu(context, dynamic song) {
                             openBottomPlaylistMenu(context, song);
                           },
                           child: const Padding(
-                            padding: EdgeInsets.only(left: 20, top: 20),
+                            padding: EdgeInsets.only(left: 20, top: 25),
                             child: Row(
                               children: [
                                 Icon(
                                   Icons.add_box_outlined,
                                   color: Colors.white,
-                                  size: 35,
+                                  size: 30,
                                 ),
                                 Padding(
-                                  padding: EdgeInsets.only(left: 15),
+                                  padding: EdgeInsets.only(left: 10),
                                   child: Text(
                                     'Add to Playlist',
                                     style: TextStyle(
-                                        color: Colors.white, fontSize: 25),
+                                      color: Colors.white,
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w500,
+                                    ),
                                   ),
                                 ),
                               ],
@@ -140,20 +146,23 @@ dynamic openBottomSongMenu(context, dynamic song) {
                         GestureDetector(
                           onTap: () {},
                           child: const Padding(
-                            padding: EdgeInsets.only(left: 20, top: 20),
+                            padding: EdgeInsets.only(left: 20, top: 25),
                             child: Row(
                               children: [
                                 Icon(
-                                  Icons.favorite,
+                                  Icons.favorite_border_rounded,
                                   color: Colors.white,
-                                  size: 35,
+                                  size: 30,
                                 ),
                                 Padding(
-                                  padding: EdgeInsets.only(left: 15),
+                                  padding: EdgeInsets.only(left: 10),
                                   child: Text(
                                     'Like this Song',
                                     style: TextStyle(
-                                        color: Colors.white, fontSize: 25),
+                                      color: Colors.white,
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w500,
+                                    ),
                                   ),
                                 ),
                               ],
@@ -161,7 +170,7 @@ dynamic openBottomSongMenu(context, dynamic song) {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(top: 15),
+                          padding: const EdgeInsets.only(top: 30),
                           child: TextButton(
                             onPressed: () => Navigator.of(context).pop(),
                             child: const Text(
