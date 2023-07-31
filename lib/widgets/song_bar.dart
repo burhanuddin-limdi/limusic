@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'bottom_song_menu.dart';
+import '../services/audio_manager.dart';
 
 class SongBar extends StatelessWidget {
   const SongBar(this.song, {super.key});
@@ -17,6 +18,7 @@ class SongBar extends StatelessWidget {
       ),
       child: InkWell(
         onLongPress: () => openBottomSongMenu(context, song),
+        onTap: () => playSong(song),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [

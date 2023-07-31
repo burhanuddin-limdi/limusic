@@ -52,7 +52,9 @@ class RootPageState extends State<RootPage> {
       listener: (context, state) {},
       builder: (context, state) {
         return Scaffold(
-          body: rootRoute,
+          body: Stack(
+            children: [rootRoute],
+          ),
           bottomNavigationBar: SnakeNavigationBar.color(
             behaviour: snakeBarStyle,
             snakeShape: snakeShape,

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:hive/hive.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 
@@ -70,6 +72,23 @@ Future getUserPlaylistSongs(songIds) async {
     songs.add(song);
   }
   return songs;
+}
+
+Future<String> getSong(String songId, bool isLive) async {
+  if (isLive) {
+    final streamInfo =
+        await yt.videos.streamsClient.getHttpLiveStreamUrl(VideoId(songId));
+    return streamInfo;
+  } else {
+    final manifest = await yt.videos.streamsClient.getManifest(songId);
+    final audioStream = manifest.audioOnly.withHighestBitrate();
+    // unawaited(
+    //   updateRecentlyPlayed(
+    //     songId,
+    //   ),
+    // ); // It's better if we save only normal audios in "Recently played" and not live ones
+    return audioStream.url.toString();
+  }
 }
 
 // void runVideo() {
