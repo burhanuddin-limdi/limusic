@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:limusic/pages/user_playlist_page.dart';
 import '../API/api.dart';
 import '../blocs/root_bloc/root_bloc.dart';
 
 class LibraryPage extends StatefulWidget {
-  final RootBloc rootBloc;
-  const LibraryPage({super.key, required this.rootBloc});
+  const LibraryPage({super.key});
 
   @override
   State<LibraryPage> createState() => _LibraryPageState();
@@ -80,11 +80,9 @@ class _LibraryPageState extends State<LibraryPage> {
                         itemCount: snapshot.data?.length,
                         itemBuilder: (BuildContext context, int index) {
                           return GestureDetector(
-                            onTap: () {
-                              widget.rootBloc.add(ChangeRootRouteEvent(
-                                  UserPlaylistPage(
-                                      playlist: snapshot.data?[index])));
-                            },
+                            onTap: () => BlocProvider.of<RootBloc>(context)
+                                .changeRoute(UserPlaylistPage(
+                                    playlist: snapshot.data?[index])),
                             child: Card(
                               color: Colors.amber,
                               child: Center(

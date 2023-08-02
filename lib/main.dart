@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import './pages/root_page.dart';
+import 'blocs/root_bloc/root_bloc.dart';
 
 void main() async {
   await initialisation();
@@ -33,7 +35,10 @@ class MyApp extends StatelessWidget {
         ),
         useMaterial3: true,
       ),
-      home: const RootPage(),
+      home: BlocProvider(
+        create: (context) => RootBloc(),
+        child: const RootPage(),
+      ),
     );
   }
 }

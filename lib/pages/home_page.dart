@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:limusic/blocs/root_bloc/root_bloc.dart';
 import '../API/api.dart';
 import '../widgets/playlist_carousel.dart';
 import '../widgets/song_bar.dart';
 
 class HomePage extends StatefulWidget {
-  final RootBloc rootBloc;
-  const HomePage({super.key, required this.rootBloc});
+  const HomePage({super.key});
 
   @override
   HomePageState createState() => HomePageState();
@@ -33,13 +31,13 @@ class HomePageState extends State<HomePage> {
             ),
           ),
           const Divider(),
-          Padding(
-            padding: const EdgeInsets.all(10.0),
+          const Padding(
+            padding: EdgeInsets.all(10.0),
             child: SizedBox(
               height: 150,
               child: PlaylistCarousel(
                 playlist: playlistIds,
-                rootBloc: widget.rootBloc,
+                // rootBloc: widget.rootBloc,
               ),
             ),
           ),

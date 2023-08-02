@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_snake_navigationbar/flutter_snake_navigationbar.dart';
 import 'package:limusic/blocs/root_bloc/root_bloc.dart';
-// import 'package:limusic/blocs/root_bloc/root_route.dart';
 import './home_page.dart';
 import './search_page.dart';
 import './library_page.dart';
@@ -15,22 +14,7 @@ class RootPage extends StatefulWidget {
 }
 
 class RootPageState extends State<RootPage> {
-  final RootBloc rootBloc = RootBloc();
-  List screens = [];
-  @override
-  void initState() {
-    rootBloc.add(ChangeRootRouteEvent(HomePage(
-      rootBloc: rootBloc,
-    )));
-    screens = [
-      HomePage(rootBloc: rootBloc),
-      const SearchPage(),
-      LibraryPage(
-        rootBloc: rootBloc,
-      )
-    ];
-    super.initState();
-  }
+  List screens = [HomePage(), SearchPage(), LibraryPage()];
 
   int selectedIndex = 0;
   SnakeBarBehaviour snakeBarStyle = SnakeBarBehaviour.floating;
@@ -48,13 +32,10 @@ class RootPageState extends State<RootPage> {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<RootBloc, RootState>(
-      bloc: rootBloc,
       listener: (context, state) {},
       builder: (context, state) {
         return Scaffold(
-          body: Stack(
-            children: [rootRoute],
-          ),
+          body: state.route ?? HomePage(),
           bottomNavigationBar: SnakeNavigationBar.color(
             behaviour: snakeBarStyle,
             snakeShape: snakeShape,
@@ -68,7 +49,9 @@ class RootPageState extends State<RootPage> {
             currentIndex: selectedIndex,
             onTap: (index) {
               setState(() => selectedIndex = index);
-              rootBloc.add(ChangeRootRouteEvent(screens[selectedIndex]));
+              BlocProvider.of<RootBloc>(context)
+                  .changeRoute(screens[selectedIndex]);
+              // context.bloc<RootBloc>().decrement();
             },
             items: const [
               BottomNavigationBarItem(

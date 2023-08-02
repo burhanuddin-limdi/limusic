@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import '../blocs/root_bloc/root_bloc.dart';
 import '../pages/playlist_page.dart';
 
 class PlaylistCard extends StatelessWidget {
-  final RootBloc rootBloc;
+  // final RootBloc rootBloc;
   final dynamic playlist;
-  const PlaylistCard({super.key, this.playlist, required this.rootBloc});
+  const PlaylistCard({super.key, this.playlist});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () =>
-          rootBloc.add(ChangeRootRouteEvent(PlaylistPage(playlist: playlist))),
+      onTap: () => BlocProvider.of<RootBloc>(context)
+          .changeRoute(PlaylistPage(playlist: playlist)),
+      // rootBloc.add(ChangeRootRouteEvent(PlaylistPage(playlist: playlist))),
       child: SizedBox(
         width: 150.0,
         height: 150.0,
