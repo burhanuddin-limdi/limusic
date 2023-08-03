@@ -36,15 +36,25 @@ class RootPageState extends State<RootPage> {
       listener: (context, state) {},
       builder: (context, state) {
         return Scaffold(
-          body: Stack(
-            alignment: Alignment.center,
+          body: Column(
             children: [
-              state.route ?? const HomePage(),
-              Positioned(
-                  bottom: 10,
-                  child: Visibility(
-                      visible: state.song != null ? true : false,
-                      child: MinMusicPlayer()))
+              Expanded(
+                child: Stack(
+                  children: [
+                    Positioned(
+                      child: state.route ?? const HomePage(),
+                    ),
+                    Positioned(
+                      bottom: 10,
+                      left: 10,
+                      child: Visibility(
+                        visible: state.song != null ? true : false,
+                        child: const MinMusicPlayer(),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ],
           ),
           bottomNavigationBar: SnakeNavigationBar.color(
@@ -62,7 +72,6 @@ class RootPageState extends State<RootPage> {
               setState(() => selectedIndex = index);
               BlocProvider.of<RootBloc>(context)
                   .changeData(screens[selectedIndex], state.song);
-              // context.bloc<RootBloc>().decrement();
             },
             items: const [
               BottomNavigationBarItem(

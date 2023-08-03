@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:limusic/widgets/music_player.dart';
 
 import '../blocs/root_bloc/root_bloc.dart';
 import '../services/audio_manager.dart';
@@ -27,6 +28,7 @@ class _MinMusicPlayerState extends State<MinMusicPlayer> {
             borderRadius: const BorderRadius.all(Radius.circular(10)),
           ),
           child: ListTile(
+            onTap: () => openMusicPlayer(context, state.song),
             title: Container(
               width: 50,
               child: Text(
