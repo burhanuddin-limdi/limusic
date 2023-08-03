@@ -10,32 +10,36 @@ class PlaylistCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () => BlocProvider.of<RootBloc>(context)
-          .changeRoute(PlaylistPage(playlist: playlist)),
-      // rootBloc.add(ChangeRootRouteEvent(PlaylistPage(playlist: playlist))),
-      child: SizedBox(
-        width: 150.0,
-        height: 150.0,
-        child: Card(
-          color: Colors.white,
-          shape: const RoundedRectangleBorder(
-            side: BorderSide(
-              color: Colors.black,
-            ),
-            borderRadius: BorderRadius.all(Radius.circular(12)),
-          ),
-          child: Center(
-            child: Text(
-              playlist['name'],
-              style: const TextStyle(
-                fontSize: 25,
-                fontWeight: FontWeight.w600,
+    return BlocBuilder<RootBloc, RootState>(
+      builder: (context, state) {
+        return GestureDetector(
+          onTap: () => BlocProvider.of<RootBloc>(context)
+              .changeData(PlaylistPage(playlist: playlist), state.song),
+          // rootBloc.add(ChangeRootRouteEvent(PlaylistPage(playlist: playlist))),
+          child: SizedBox(
+            width: 150.0,
+            height: 150.0,
+            child: Card(
+              color: Colors.white,
+              shape: const RoundedRectangleBorder(
+                side: BorderSide(
+                  color: Colors.black,
+                ),
+                borderRadius: BorderRadius.all(Radius.circular(12)),
+              ),
+              child: Center(
+                child: Text(
+                  playlist['name'],
+                  style: const TextStyle(
+                    fontSize: 25,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
               ),
             ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }

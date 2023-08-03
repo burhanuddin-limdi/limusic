@@ -5,15 +5,14 @@ import '../API/api.dart';
 AudioPlayer audioPlayer = AudioPlayer();
 
 Future<void> playSong(dynamic song) async {
-  print(song);
   final songUrl = await getSong(song.id.toString(), song.isLive);
-  // await checkIfSponsorBlockIsAvailable(song, songUrl);
-  final audioSource = AudioSource.uri(
-    Uri.parse(songUrl),
-    // tag: mapToMediaItem(song, songUrl),
-  );
+  final audioSource = AudioSource.uri(Uri.parse(songUrl));
   await audioPlayer.setAudioSource(audioSource);
   await audioPlayer.play();
+}
+
+Future<void> pauseSong() async {
+  await audioPlayer.pause();
 }
 
 // Future<void> checkIfSponsorBlockIsAvailable(song, songUrl) async {

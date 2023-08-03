@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_snake_navigationbar/flutter_snake_navigationbar.dart';
 import 'package:limusic/blocs/root_bloc/root_bloc.dart';
+import 'package:limusic/widgets/min_music_player.dart';
 import './home_page.dart';
 import './search_page.dart';
 import './library_page.dart';
@@ -14,7 +15,7 @@ class RootPage extends StatefulWidget {
 }
 
 class RootPageState extends State<RootPage> {
-  List screens = [HomePage(), SearchPage(), LibraryPage()];
+  List screens = [const HomePage(), const SearchPage(), const LibraryPage()];
 
   int selectedIndex = 0;
   SnakeBarBehaviour snakeBarStyle = SnakeBarBehaviour.floating;
@@ -35,7 +36,17 @@ class RootPageState extends State<RootPage> {
       listener: (context, state) {},
       builder: (context, state) {
         return Scaffold(
-          body: state.route ?? HomePage(),
+          body: Stack(
+            alignment: Alignment.center,
+            children: [
+              state.route ?? const HomePage(),
+              Positioned(
+                  bottom: 10,
+                  child: Visibility(
+                      visible: state.song != null ? true : false,
+                      child: MinMusicPlayer()))
+            ],
+          ),
           bottomNavigationBar: SnakeNavigationBar.color(
             behaviour: snakeBarStyle,
             snakeShape: snakeShape,
@@ -50,7 +61,7 @@ class RootPageState extends State<RootPage> {
             onTap: (index) {
               setState(() => selectedIndex = index);
               BlocProvider.of<RootBloc>(context)
-                  .changeRoute(screens[selectedIndex]);
+                  .changeData(screens[selectedIndex], state.song);
               // context.bloc<RootBloc>().decrement();
             },
             items: const [
