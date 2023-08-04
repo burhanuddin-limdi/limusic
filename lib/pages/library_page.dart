@@ -104,40 +104,44 @@ class _LibraryPageState extends State<LibraryPage> {
                   },
                 ),
               ),
-              Positioned(
-                bottom: 20,
-                right: 20,
-                child: ElevatedButton(
-                  onPressed: () {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          title: const Text('Create Playlist'),
-                          content: TextField(
-                            controller: myController,
-                            decoration: const InputDecoration(
-                              border: OutlineInputBorder(),
-                              labelText: 'Enter Playlist Name',
-                            ),
-                          ),
-                          actions: [
-                            TextButton(
-                              onPressed: () {
-                                addUserPlaylist(myController.text);
-                                myController.text = '';
-                                _refreshIndicatorKey.currentState?.show();
-                                Navigator.of(context).pop();
-                              },
-                              child: const Text('Create'),
-                            )
-                          ],
+              BlocBuilder<RootBloc, RootState>(
+                builder: (context, state) {
+                  return Positioned(
+                    bottom: state.song != null ? 70 : 20,
+                    right: 20,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: const Text('Create Playlist'),
+                              content: TextField(
+                                controller: myController,
+                                decoration: const InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  labelText: 'Enter Playlist Name',
+                                ),
+                              ),
+                              actions: [
+                                TextButton(
+                                  onPressed: () {
+                                    addUserPlaylist(myController.text);
+                                    myController.text = '';
+                                    _refreshIndicatorKey.currentState?.show();
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: const Text('Create'),
+                                )
+                              ],
+                            );
+                          },
                         );
                       },
-                    );
-                  },
-                  child: const Icon(Icons.add),
-                ),
+                      child: const Icon(Icons.add),
+                    ),
+                  );
+                },
               ),
             ],
           ),

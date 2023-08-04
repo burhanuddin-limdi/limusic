@@ -22,9 +22,13 @@ class SongBar extends StatelessWidget {
         builder: (context, state) {
           return InkWell(
             onLongPress: () => openBottomSongMenu(context, song),
-            onTap: () {
-              playSong(song);
+            onTap: () async {
               BlocProvider.of<RootBloc>(context).changeData(state.route, song);
+              bool removeConstBar = await playSong(song);
+              if (!removeConstBar) {
+                BlocProvider.of<RootBloc>(context)
+                    .changeData(state.route, null);
+              }
             },
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,

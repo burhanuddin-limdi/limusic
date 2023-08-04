@@ -4,6 +4,7 @@ import 'package:hive/hive.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 
 import '../services/data_manager.dart';
+// import '../utilities/formatter.dart';
 
 final yt = YoutubeExplode();
 
@@ -75,19 +76,37 @@ Future getUserPlaylistSongs(songIds) async {
 }
 
 Future<String> getSong(String songId, bool isLive) async {
-  if (isLive) {
-    final streamInfo =
-        await yt.videos.streamsClient.getHttpLiveStreamUrl(VideoId(songId));
-    return streamInfo;
-  } else {
-    final manifest = await yt.videos.streamsClient.getManifest(songId);
-    final audioStream = manifest.audioOnly.withHighestBitrate();
-    // unawaited(
-    //   updateRecentlyPlayed(
-    //     songId,
-    //   ),
-    // ); // It's better if we save only normal audios in "Recently played" and not live ones
-    return audioStream.url.toString();
+  try {
+    if (isLive) {
+      final streamInfo =
+          await yt.videos.streamsClient.getHttpLiveStreamUrl(VideoId(songId));
+      return streamInfo;
+    } else {
+      final manifest = await yt.videos.streamsClient.getManifest(songId);
+      final audioStream = manifest.audioOnly.withHighestBitrate();
+      return audioStream.url.toString();
+    }
+  } catch (e) {
+    return '';
+  }
+}
+
+Future<List> fetchSongsList(String searchQuery) async {
+  try {
+    final List list = await yt.search.search(searchQuery);
+    // final searchedList = [
+    //   for (final s in list)
+    //     returnSongLayout(
+    //       0,
+    //       s,
+    //     )
+    // ];
+
+    // return searchedList;
+    return list;
+  } catch (e) {
+    // Logger.log('Error in fetchSongsList: $e');
+    return [];
   }
 }
 
