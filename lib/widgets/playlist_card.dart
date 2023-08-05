@@ -19,36 +19,28 @@ class PlaylistCard extends StatelessWidget {
           child: SizedBox(
             width: 150.0,
             height: 150.0,
-            child: Card(
-              // color: Theme.of(context).colorScheme.primary,
-              shape: RoundedRectangleBorder(
-                side: BorderSide(
-                  color: Theme.of(context).colorScheme.tertiary,
+            child: Container(
+              // width: 700,
+              // height: 00,
+              margin:
+                  const EdgeInsets.only(left: 0, right: 17, top: 0, bottom: 10),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(
+                    color: Theme.of(context).colorScheme.primary, width: 3),
+                boxShadow: [
+                  BoxShadow(
+                      color: Theme.of(context).colorScheme.primary,
+                      offset: const Offset(9, 9),
+                      spreadRadius: -1,
+                      blurRadius: 0)
+                ],
+                image: DecorationImage(
+                  image: AssetImage(
+                      'assets/playlist_thumbnails/${playlist['name']}.png'),
+                  fit: BoxFit.fill,
                 ),
-                borderRadius: BorderRadius.all(Radius.circular(12)),
               ),
-              child: Container(
-                width: 600,
-                height: 600,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: Colors.black, width: 0.5),
-                  image: DecorationImage(
-                    image: AssetImage(
-                        'assets/playlist_thumbnails/${playlist['name']}.png'),
-                    fit: BoxFit.fill,
-                  ),
-                ),
-              ),
-              // child: Center(
-              //   child: Text(
-              //     playlist['name'],
-              //     style: TextStyle(
-              //         fontSize: 25,
-              //         fontWeight: FontWeight.w600,
-              //         color: Theme.of(context).colorScheme.secondary),
-              //   ),
-              // ),
             ),
           ),
         );

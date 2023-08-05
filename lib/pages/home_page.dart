@@ -22,15 +22,23 @@ class HomePageState extends State<HomePage> {
               padding: const EdgeInsets.only(top: 40, left: 10),
               child: Text(
                 greetings(),
-                style: const TextStyle(
+                style: TextStyle(
                   fontWeight: FontWeight.w600,
-                  fontSize: 25,
+                  fontSize: 27,
+                  color: Theme.of(context).colorScheme.primary,
+                  shadows: [
+                    Shadow(
+                        color: Theme.of(context).colorScheme.secondary,
+                        offset: const Offset(1.5, 1.5),
+                        // spreadRadius: -1,
+                        blurRadius: 0)
+                  ],
                 ),
                 textAlign: TextAlign.start,
               ),
             ),
           ),
-          const Divider(),
+          // const Divider(),
           Padding(
             padding: EdgeInsets.all(10.0),
             child: SizedBox(
@@ -41,16 +49,24 @@ class HomePageState extends State<HomePage> {
               ),
             ),
           ),
-          const Divider(),
+          // const Divider(),
           Container(
             alignment: const Alignment(-1, 0),
-            child: const Padding(
+            child: Padding(
               padding: EdgeInsets.only(top: 20, left: 10),
               child: Text(
                 'Top Trending Music',
                 style: TextStyle(
-                  fontWeight: FontWeight.w500,
+                  fontWeight: FontWeight.w600,
                   fontSize: 20,
+                  color: Theme.of(context).colorScheme.primary,
+                  shadows: [
+                    Shadow(
+                        color: Theme.of(context).colorScheme.secondary,
+                        offset: const Offset(1, 1),
+                        // spreadRadius: -1,
+                        blurRadius: 0)
+                  ],
                 ),
                 textAlign: TextAlign.start,
               ),

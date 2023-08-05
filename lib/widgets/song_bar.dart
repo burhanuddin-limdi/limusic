@@ -12,10 +12,17 @@ class SongBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(8),
-      margin: const EdgeInsets.only(left: 8, right: 8, top: 0, bottom: 8),
+      margin: const EdgeInsets.only(left: 10, right: 12, top: 0, bottom: 15),
       decoration: BoxDecoration(
+        boxShadow: [
+          BoxShadow(
+              color: Theme.of(context).colorScheme.tertiary,
+              offset: const Offset(8, 8),
+              spreadRadius: -1,
+              blurRadius: 0)
+        ],
         borderRadius: BorderRadius.circular(12),
-        color: Theme.of(context).colorScheme.primary,
+        color: Theme.of(context).colorScheme.secondary,
         border:
             Border.all(color: Theme.of(context).colorScheme.tertiary, width: 2),
       ),
@@ -58,13 +65,13 @@ class SongBar extends StatelessWidget {
                         Container(
                           alignment: Alignment.centerLeft,
                           padding: const EdgeInsets.only(left: 15),
-                          width: 200,
+                          width: 190,
                           child: Expanded(
                             child: Text(
                               overflow: TextOverflow.ellipsis,
                               createTitle(song.title.toString()),
                               style: TextStyle(
-                                color: Theme.of(context).colorScheme.secondary,
+                                color: Theme.of(context).colorScheme.primary,
                                 fontSize: 18,
                                 fontWeight: FontWeight.w700,
                               ),
@@ -76,7 +83,7 @@ class SongBar extends StatelessWidget {
                         ),
                         Container(
                           padding: const EdgeInsets.only(left: 20),
-                          width: 200,
+                          width: 190,
                           child: Text(
                             overflow: TextOverflow.ellipsis,
                             song.author.toString(),
