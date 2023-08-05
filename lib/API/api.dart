@@ -1,10 +1,7 @@
 import 'dart:async';
-
 import 'package:hive/hive.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
-
 import '../services/data_manager.dart';
-// import '../utilities/formatter.dart';
 
 final yt = YoutubeExplode();
 
@@ -12,17 +9,22 @@ List userPlaylists = Hive.box('user').get('playlists', defaultValue: []);
 
 String topDailyMusicId = 'PLx0sYbCqOb8Sfi8H4gvgW-vS1g2fkxwLT';
 
-const playlistIds = [
-  {'name': 'Pop', 'id': 'PLw-VjHDlEOguL2K_NwIl_tYcs9_FSt5v_'},
-  {'name': 'Hindi', 'id': 'PL3oW2tjiIxvTSdJ4zqjL9dijeZ0LjcuGS'},
-  {'name': 'Rap', 'id': 'PL4xqRMQ2GXanSqin_ScadJd4coEBK_QCS'},
-  {'name': 'Korean', 'id': 'PL4QNnZJr8sRNKjKzArmzTBAlNYBDN2h-J'},
-  {'name': 'Punjabi', 'id': 'PL-QvSRz8uhNHYPsQFUyZ4vEDURCBqLiR1'},
-  {'name': 'Party', 'id': 'PLm_3vnTS-pvnzdJZzI1jKXvjp_ssKTnP0'},
-  {'name': 'Rock', 'id': 'PLDyMXoYglQpLxQKW_BLbkSh8KuIhYbIp8'},
-  {'name': 'Japanese', 'id': 'PLHfGRdioXHaO6fpAWIUYTV2lBws-uWECA'},
-  {'name': 'Tiktok', 'id': 'PLyORnIW1xT6xExONZqUnmdnfVAl0sJGeb'},
-  {'name': 'Bhojpuri', 'id': 'PL2NFDAvOrsDVTOOuuVUJIakhBvZIjnF2j'},
+List getRecommendedPlaylsits() {
+  playlistIds.shuffle();
+  return playlistIds.toList();
+}
+
+final playlistIds = [
+  {'name': 'pop', 'id': 'PLw-VjHDlEOguL2K_NwIl_tYcs9_FSt5v_'},
+  {'name': 'hindi', 'id': 'PL3oW2tjiIxvTSdJ4zqjL9dijeZ0LjcuGS'},
+  {'name': 'rap', 'id': 'PL4xqRMQ2GXanSqin_ScadJd4coEBK_QCS'},
+  {'name': 'korean', 'id': 'PL4QNnZJr8sRNKjKzArmzTBAlNYBDN2h-J'},
+  {'name': 'punjabi', 'id': 'PL-QvSRz8uhNHYPsQFUyZ4vEDURCBqLiR1'},
+  {'name': 'party', 'id': 'PLm_3vnTS-pvnzdJZzI1jKXvjp_ssKTnP0'},
+  {'name': 'rock', 'id': 'PLDyMXoYglQpLxQKW_BLbkSh8KuIhYbIp8'},
+  {'name': 'japanese', 'id': 'PLHfGRdioXHaO6fpAWIUYTV2lBws-uWECA'},
+  {'name': 'tiktok', 'id': 'PLyORnIW1xT6xExONZqUnmdnfVAl0sJGeb'},
+  {'name': 'bhojpuri', 'id': 'PL2NFDAvOrsDVTOOuuVUJIakhBvZIjnF2j'},
 ];
 
 Future getvideo() async {

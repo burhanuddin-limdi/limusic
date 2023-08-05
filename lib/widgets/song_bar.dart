@@ -14,9 +14,10 @@ class SongBar extends StatelessWidget {
       padding: const EdgeInsets.all(8),
       margin: const EdgeInsets.only(left: 8, right: 8, top: 0, bottom: 8),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        color: Colors.white,
-        border: Border.all(color: Colors.black, width: 1),
+        borderRadius: BorderRadius.circular(12),
+        color: Theme.of(context).colorScheme.primary,
+        border:
+            Border.all(color: Theme.of(context).colorScheme.tertiary, width: 2),
       ),
       child: BlocBuilder<RootBloc, RootState>(
         builder: (context, state) {
@@ -39,8 +40,10 @@ class SongBar extends StatelessWidget {
                       width: 60,
                       height: 60,
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(12),
-                        border: Border.all(color: Colors.black, width: 0.5),
+                        borderRadius: BorderRadius.circular(6),
+                        border: Border.all(
+                            color: Theme.of(context).colorScheme.tertiary,
+                            width: 1),
                         image: DecorationImage(
                           image: NetworkImage(
                               'https://img.youtube.com/vi/${song.id}/default.jpg'),
@@ -60,8 +63,8 @@ class SongBar extends StatelessWidget {
                             child: Text(
                               overflow: TextOverflow.ellipsis,
                               createTitle(song.title.toString()),
-                              style: const TextStyle(
-                                color: Colors.black,
+                              style: TextStyle(
+                                color: Theme.of(context).colorScheme.secondary,
                                 fontSize: 18,
                                 fontWeight: FontWeight.w700,
                               ),
@@ -78,7 +81,7 @@ class SongBar extends StatelessWidget {
                             overflow: TextOverflow.ellipsis,
                             song.author.toString(),
                             style: TextStyle(
-                              color: Theme.of(context).hintColor,
+                              color: Theme.of(context).colorScheme.tertiary,
                               fontWeight: FontWeight.w400,
                               fontSize: 14,
                             ),
@@ -92,11 +95,17 @@ class SongBar extends StatelessWidget {
                   children: [
                     IconButton(
                       onPressed: () {},
-                      icon: const Icon(Icons.favorite_border_rounded),
+                      icon: Icon(
+                        Icons.favorite_border_rounded,
+                        color: Theme.of(context).colorScheme.tertiary,
+                      ),
                     ),
                     IconButton(
                       onPressed: () => openBottomSongMenu(context, song),
-                      icon: const Icon(Icons.more_vert_outlined),
+                      icon: Icon(
+                        Icons.more_vert_outlined,
+                        color: Theme.of(context).colorScheme.tertiary,
+                      ),
                     ),
                   ],
                 )

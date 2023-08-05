@@ -20,22 +20,35 @@ class PlaylistCard extends StatelessWidget {
             width: 150.0,
             height: 150.0,
             child: Card(
-              color: Colors.white,
-              shape: const RoundedRectangleBorder(
+              // color: Theme.of(context).colorScheme.primary,
+              shape: RoundedRectangleBorder(
                 side: BorderSide(
-                  color: Colors.black,
+                  color: Theme.of(context).colorScheme.tertiary,
                 ),
                 borderRadius: BorderRadius.all(Radius.circular(12)),
               ),
-              child: Center(
-                child: Text(
-                  playlist['name'],
-                  style: const TextStyle(
-                    fontSize: 25,
-                    fontWeight: FontWeight.w600,
+              child: Container(
+                width: 600,
+                height: 600,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: Colors.black, width: 0.5),
+                  image: DecorationImage(
+                    image: AssetImage(
+                        'assets/playlist_thumbnails/${playlist['name']}.png'),
+                    fit: BoxFit.fill,
                   ),
                 ),
               ),
+              // child: Center(
+              //   child: Text(
+              //     playlist['name'],
+              //     style: TextStyle(
+              //         fontSize: 25,
+              //         fontWeight: FontWeight.w600,
+              //         color: Theme.of(context).colorScheme.secondary),
+              //   ),
+              // ),
             ),
           ),
         );

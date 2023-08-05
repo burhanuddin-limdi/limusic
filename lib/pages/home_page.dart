@@ -31,12 +31,12 @@ class HomePageState extends State<HomePage> {
             ),
           ),
           const Divider(),
-          const Padding(
+          Padding(
             padding: EdgeInsets.all(10.0),
             child: SizedBox(
               height: 150,
               child: PlaylistCarousel(
-                playlist: playlistIds,
+                playlist: getRecommendedPlaylsits(),
                 // rootBloc: widget.rootBloc,
               ),
             ),

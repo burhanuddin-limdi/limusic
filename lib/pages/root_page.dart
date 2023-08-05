@@ -27,9 +27,6 @@ class RootPageState extends State<RootPage> {
       strokeAlign: BorderSide.strokeAlignInside,
     ),
   );
-  Color selectedColor = Colors.black;
-  Color unselectedColor = Colors.black;
-
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<RootBloc, RootState>(
@@ -58,13 +55,15 @@ class RootPageState extends State<RootPage> {
             ],
           ),
           bottomNavigationBar: SnakeNavigationBar.color(
+            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
             behaviour: snakeBarStyle,
             snakeShape: snakeShape,
             shape: bottomBarShape,
-            snakeViewColor: selectedColor,
-            selectedItemColor:
-                snakeShape == SnakeShape.indicator ? selectedColor : null,
-            unselectedItemColor: unselectedColor,
+            snakeViewColor: Theme.of(context).colorScheme.tertiary,
+            unselectedItemColor: Theme.of(context).colorScheme.tertiary,
+            selectedItemColor: snakeShape == SnakeShape.indicator
+                ? Theme.of(context).colorScheme.primary
+                : null,
             showUnselectedLabels: false,
             showSelectedLabels: false,
             currentIndex: selectedIndex,
@@ -73,17 +72,26 @@ class RootPageState extends State<RootPage> {
               BlocProvider.of<RootBloc>(context)
                   .changeData(screens[selectedIndex], state.song);
             },
-            items: const [
+            items: [
               BottomNavigationBarItem(
-                icon: Icon(Icons.home),
+                icon: Icon(
+                  Icons.home,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
                 label: 'home',
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.search),
+                icon: Icon(
+                  Icons.search,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
                 label: 'search',
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.library_music),
+                icon: Icon(
+                  Icons.library_music,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
                 label: 'playlists',
               ),
             ],
