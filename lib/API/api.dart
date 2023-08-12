@@ -5,7 +5,12 @@ import '../services/data_manager.dart';
 
 final yt = YoutubeExplode();
 
-List userPlaylists = Hive.box('user').get('playlists', defaultValue: []);
+List userPlaylists = Hive.box('user').get('playlists', defaultValue: [
+  {
+    'key': 'Liked Songs',
+    'value': [],
+  }
+]);
 
 String topDailyMusicId = 'PLx0sYbCqOb8Sfi8H4gvgW-vS1g2fkxwLT';
 
@@ -64,14 +69,30 @@ void addSongToUserPlaylist(String playlsitName, String songId) {
   addOrUpdateData('user', 'playlists', userPlaylists);
 }
 
+void onLikeSong(String songId) {
+  dynamic likedSongsPlaylist = userPlaylists[0];
+  likedSongsPlaylist['value'].add(songId);
+  addOrUpdateData('user', 'playlists', userPlaylists);
+}
+
+void onDislikeSong(String songId) {
+  dynamic likedSongsPlaylist = userPlaylists[0];
+  likedSongsPlaylist['value'].remove(songId);
+}
+
+bool checkForSongLiked(String sondId) {
+  dynamic likedSongsPlaylist = userPlaylists[0];
+  if (likedSongsPlaylist['value'].length == 0) {
+    return false;
+  } else {
+    return likedSongsPlaylist['value'].contains(sondId);
+  }
+}
+
 Future getUserPlaylistSongs(songIds) async {
-  // var video = yt.videos.get('https://youtube.com/watch?v=Dpp1sIL1m5Q');
-  // print(video);
-  // print('songIds' + songIds.toString());
   List songs = [];
   for (var songId in songIds) {
     var song = await yt.videos.get('https://youtube.com/watch?v=$songId');
-    // print(song);
     songs.add(song);
   }
   return songs;
@@ -96,23 +117,8 @@ Future<String> getSong(String songId, bool isLive) async {
 Future<List> fetchSongsList(String searchQuery) async {
   try {
     final List list = await yt.search.search(searchQuery);
-    // final searchedList = [
-    //   for (final s in list)
-    //     returnSongLayout(
-    //       0,
-    //       s,
-    //     )
-    // ];
-
-    // return searchedList;
     return list;
   } catch (e) {
-    // Logger.log('Error in fetchSongsList: $e');
     return [];
   }
 }
-
-// void runVideo() {
-//   print(userPlaylists);
-//   getUserPlaylistSongs(userPlaylists[0]['value']);
-// }

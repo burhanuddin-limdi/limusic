@@ -59,8 +59,8 @@ class RootPageState extends State<RootPage> {
             behaviour: snakeBarStyle,
             snakeShape: snakeShape,
             shape: bottomBarShape,
-            snakeViewColor: Theme.of(context).colorScheme.tertiary,
-            unselectedItemColor: Theme.of(context).colorScheme.tertiary,
+            snakeViewColor: Theme.of(context).colorScheme.secondary,
+            unselectedItemColor: Theme.of(context).colorScheme.secondary,
             selectedItemColor: snakeShape == SnakeShape.indicator
                 ? Theme.of(context).colorScheme.primary
                 : null,

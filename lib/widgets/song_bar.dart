@@ -1,12 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../API/api.dart';
 import '../blocs/root_bloc/root_bloc.dart';
 import 'bottom_song_menu.dart';
 import '../services/audio_manager.dart';
 
-class SongBar extends StatelessWidget {
+class SongBar extends StatefulWidget {
   const SongBar(this.song, {super.key});
   final dynamic song;
+
+  @override
+  State<SongBar> createState() => _SongBarState();
+}
+
+class _SongBarState extends State<SongBar> {
+  late bool songLiked;
+
+  @override
+  void initState() {
+    super.initState();
+    songLiked = checkForSongLiked(widget.song.id.toString());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +30,7 @@ class SongBar extends StatelessWidget {
       decoration: BoxDecoration(
         boxShadow: [
           BoxShadow(
-              color: Theme.of(context).colorScheme.tertiary,
+              color: Theme.of(context).colorScheme.primary,
               offset: const Offset(8, 8),
               spreadRadius: -1,
               blurRadius: 0)
@@ -24,15 +38,16 @@ class SongBar extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
         color: Theme.of(context).colorScheme.secondary,
         border:
-            Border.all(color: Theme.of(context).colorScheme.tertiary, width: 2),
+            Border.all(color: Theme.of(context).colorScheme.primary, width: 2),
       ),
       child: BlocBuilder<RootBloc, RootState>(
         builder: (context, state) {
           return InkWell(
-            onLongPress: () => openBottomSongMenu(context, song),
+            onLongPress: () => openBottomSongMenu(context, widget.song),
             onTap: () async {
-              BlocProvider.of<RootBloc>(context).changeData(state.route, song);
-              bool removeConstBar = await playSong(song);
+              BlocProvider.of<RootBloc>(context)
+                  .changeData(state.route, widget.song);
+              bool removeConstBar = await playSong(widget.song);
               if (!removeConstBar) {
                 BlocProvider.of<RootBloc>(context)
                     .changeData(state.route, null);
@@ -53,7 +68,7 @@ class SongBar extends StatelessWidget {
                             width: 1),
                         image: DecorationImage(
                           image: NetworkImage(
-                              'https://img.youtube.com/vi/${song.id}/default.jpg'),
+                              'https://img.youtube.com/vi/${widget.song.id}/default.jpg'),
                           centerSlice: const Rect.fromLTRB(1, 1, 1, 1),
                           fit: BoxFit.fill,
                         ),
@@ -69,7 +84,7 @@ class SongBar extends StatelessWidget {
                           child: Expanded(
                             child: Text(
                               overflow: TextOverflow.ellipsis,
-                              createTitle(song.title.toString()),
+                              createTitle(widget.song.title.toString()),
                               style: TextStyle(
                                 color: Theme.of(context).colorScheme.primary,
                                 fontSize: 18,
@@ -86,7 +101,7 @@ class SongBar extends StatelessWidget {
                           width: 190,
                           child: Text(
                             overflow: TextOverflow.ellipsis,
-                            song.author.toString(),
+                            widget.song.author.toString(),
                             style: TextStyle(
                               color: Theme.of(context).colorScheme.tertiary,
                               fontWeight: FontWeight.w400,
@@ -101,14 +116,22 @@ class SongBar extends StatelessWidget {
                 Row(
                   children: [
                     IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        String sondId = widget.song.id.toString();
+                        songLiked ? onDislikeSong(sondId) : onLikeSong(sondId);
+                        setState(() {
+                          songLiked = checkForSongLiked(sondId);
+                        });
+                      },
                       icon: Icon(
-                        Icons.favorite_border_rounded,
+                        songLiked
+                            ? Icons.favorite
+                            : Icons.favorite_border_rounded,
                         color: Theme.of(context).colorScheme.tertiary,
                       ),
                     ),
                     IconButton(
-                      onPressed: () => openBottomSongMenu(context, song),
+                      onPressed: () => openBottomSongMenu(context, widget.song),
                       icon: Icon(
                         Icons.more_vert_outlined,
                         color: Theme.of(context).colorScheme.tertiary,
