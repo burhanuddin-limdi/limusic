@@ -40,7 +40,7 @@ class HomePageState extends State<HomePage> {
           ),
           // const Divider(),
           Padding(
-            padding: EdgeInsets.all(10.0),
+            padding: const EdgeInsets.all(10.0),
             child: SizedBox(
               height: 150,
               child: PlaylistCarousel(
@@ -53,7 +53,7 @@ class HomePageState extends State<HomePage> {
           Container(
             alignment: const Alignment(-1, 0),
             child: Padding(
-              padding: EdgeInsets.only(top: 20, left: 10),
+              padding: const EdgeInsets.only(top: 20, left: 10),
               child: Text(
                 'Top Trending Music',
                 style: TextStyle(

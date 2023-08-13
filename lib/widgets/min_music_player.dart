@@ -20,18 +20,35 @@ class _MinMusicPlayerState extends State<MinMusicPlayer> {
       builder: (context, state) {
         return Container(
           width: MediaQuery.of(context).size.width - 20,
-          height: 50,
-          // color: Colors.amber,
           decoration: BoxDecoration(
-            color: Colors.white,
-            border: Border.all(color: Colors.black, width: 3),
+            color: Theme.of(context).colorScheme.tertiary,
+            // border: Border.all(
+            //     color: Theme.of(context).colorScheme.tertiary, width: 3),
             borderRadius: const BorderRadius.all(Radius.circular(10)),
           ),
           child: ListTile(
             onTap: () => openMusicPlayer(context, state.song),
-            title: Container(
+            leading: Container(
+              width: 55,
+              height: 55,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(9999),
+                border: Border.all(
+                    color: Theme.of(context).colorScheme.secondary, width: 1),
+                image: DecorationImage(
+                  image: NetworkImage(
+                      'https://img.youtube.com/vi/${state.song.id}/default.jpg'),
+                  centerSlice: const Rect.fromLTRB(1, 1, 1, 1),
+                  fit: BoxFit.fill,
+                ),
+              ),
+            ),
+            title: SizedBox(
               width: 50,
               child: Text(
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.secondary,
+                ),
                 overflow: TextOverflow.ellipsis,
                 state.song?.title.toString() ?? '',
               ),
@@ -42,40 +59,43 @@ class _MinMusicPlayerState extends State<MinMusicPlayer> {
                 final playerState = snapshot.data;
                 final processingState = playerState?.processingState;
                 final playing = playerState?.playing;
-                IconData icon;
+                IconData? icon;
                 VoidCallback? onPressed;
-                if (processingState == ProcessingState.loading ||
-                    processingState == ProcessingState.buffering) {
-                  icon = Icons.radio_button_off_rounded;
-                  onPressed = null;
-                } else if (playing != true) {
-                  icon = Icons.play_arrow;
-                  onPressed = audioPlayer.play;
-                } else if (processingState != ProcessingState.completed) {
-                  icon = Icons.pause;
-                  onPressed = audioPlayer.pause;
-                } else {
-                  icon = Icons.replay;
-                  onPressed = () => audioPlayer.seek(
-                        Duration.zero,
-                        index: audioPlayer.effectiveIndices!.first,
-                      );
+                if (playerState != null) {
+                  if (processingState == ProcessingState.loading ||
+                      processingState == ProcessingState.buffering) {
+                    icon = null;
+                    onPressed = null;
+                  } else if (playing != true) {
+                    icon = Icons.play_arrow;
+                    onPressed = audioPlayer.play;
+                  } else if (processingState != ProcessingState.completed) {
+                    icon = Icons.pause;
+                    onPressed = audioPlayer.pause;
+                  } else {
+                    icon = Icons.replay;
+                    onPressed = () => audioPlayer.seek(
+                          Duration.zero,
+                          index: audioPlayer.effectiveIndices!.first,
+                        );
+                  }
                 }
 
-                return IconButton(
-                  icon: Icon(icon, color: Colors.black),
-                  iconSize: 45,
-                  onPressed: onPressed,
-                  splashColor: Colors.transparent,
-                );
+                return icon != null
+                    ? IconButton(
+                        icon: Icon(
+                          icon,
+                          color: Theme.of(context).colorScheme.secondary,
+                        ),
+                        iconSize: 45,
+                        onPressed: onPressed,
+                        splashColor: Colors.transparent,
+                      )
+                    : CircularProgressIndicator(
+                        color: Theme.of(context).colorScheme.secondary,
+                      );
               },
             ),
-            // trailing: IconButton(
-            //   icon: const Icon(Icons.pause),
-            //   onPressed: () {
-            //     pauseSong();
-            //   },
-            // ),
           ),
         );
       },

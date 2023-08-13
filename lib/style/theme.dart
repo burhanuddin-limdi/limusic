@@ -6,7 +6,7 @@ ThemeData themeData() => ThemeData(
           primary: const Color(0xff955007),
           secondary: const Color(0xfff6f6da),
           // tertiary: Colors.black,
-          tertiary: Color(0xff766076)),
+          tertiary: const Color(0xff766076)),
       scaffoldBackgroundColor: const Color(0xfff4e4c6),
       primaryColor: const Color(0xff955007),
       useMaterial3: true,

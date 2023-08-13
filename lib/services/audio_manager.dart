@@ -1,4 +1,5 @@
 import 'package:just_audio/just_audio.dart';
+import 'package:limusic/utilities/mediaitem.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../API/api.dart';
@@ -6,11 +7,40 @@ import '../API/api.dart';
 AudioPlayer audioPlayer = AudioPlayer();
 
 Future<bool> playSong(dynamic song) async {
+  print(song);
   await audioPlayer.stop();
   final songUrl = await getSong(song.id.toString(), song.isLive);
   if (songUrl.isNotEmpty) {
-    final audioSource = AudioSource.uri(Uri.parse(songUrl));
-    await audioPlayer.setAudioSource(audioSource);
+    final audioSource = AudioSource.uri(
+      Uri.parse(songUrl),
+      tag: mapToMediaItem(song, songUrl),
+    );
+    print('source');
+    print(audioSource.uri);
+
+    final segments = await getSkipSegments(song.id.toString());
+    if (segments.isNotEmpty) {
+      if (segments.length == 1) {
+        await audioPlayer.setAudioSource(
+          ClippingAudioSource(
+            child: audioSource,
+            start: Duration(seconds: segments[0]['end']!),
+            tag: audioSource.tag,
+          ),
+        );
+      } else {
+        await audioPlayer.setAudioSource(
+          ClippingAudioSource(
+            child: audioSource,
+            start: Duration(seconds: segments[0]['end']!),
+            end: Duration(seconds: segments[1]['start']!),
+            tag: audioSource.tag,
+          ),
+        );
+      }
+    } else {
+      await audioPlayer.setAudioSource(audioSource);
+    }
     await audioPlayer.play();
     return true;
   } else {
