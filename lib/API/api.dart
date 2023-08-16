@@ -51,7 +51,6 @@ Future getPlaylist(String id) async {
 }
 
 Future<List> getUserPlaylist() async {
-  // print(userPlaylists);
   return userPlaylists;
 }
 

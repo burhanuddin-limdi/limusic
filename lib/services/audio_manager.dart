@@ -7,7 +7,6 @@ import '../API/api.dart';
 AudioPlayer audioPlayer = AudioPlayer();
 
 Future<bool> playSong(dynamic song) async {
-  print(song);
   await audioPlayer.stop();
   final songUrl = await getSong(song.id.toString(), song.isLive);
   if (songUrl.isNotEmpty) {
@@ -15,9 +14,6 @@ Future<bool> playSong(dynamic song) async {
       Uri.parse(songUrl),
       tag: mapToMediaItem(song, songUrl),
     );
-    print('source');
-    print(audioSource.uri);
-
     final segments = await getSkipSegments(song.id.toString());
     if (segments.isNotEmpty) {
       if (segments.length == 1) {

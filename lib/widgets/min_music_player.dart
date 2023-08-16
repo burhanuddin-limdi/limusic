@@ -61,24 +61,24 @@ class _MinMusicPlayerState extends State<MinMusicPlayer> {
                 final playing = playerState?.playing;
                 IconData? icon;
                 VoidCallback? onPressed;
-                if (playerState != null) {
-                  if (processingState == ProcessingState.loading ||
-                      processingState == ProcessingState.buffering) {
-                    icon = null;
-                    onPressed = null;
-                  } else if (playing != true) {
+                if (processingState == ProcessingState.loading ||
+                    processingState == ProcessingState.buffering) {
+                  icon = null;
+                  onPressed = null;
+                } else if (playing != true) {
+                  if (processingState != ProcessingState.idle) {
                     icon = Icons.play_arrow;
                     onPressed = audioPlayer.play;
-                  } else if (processingState != ProcessingState.completed) {
-                    icon = Icons.pause;
-                    onPressed = audioPlayer.pause;
-                  } else {
-                    icon = Icons.replay;
-                    onPressed = () => audioPlayer.seek(
-                          Duration.zero,
-                          index: audioPlayer.effectiveIndices!.first,
-                        );
                   }
+                } else if (processingState != ProcessingState.completed) {
+                  icon = Icons.pause;
+                  onPressed = audioPlayer.pause;
+                } else {
+                  icon = Icons.replay;
+                  onPressed = () => audioPlayer.seek(
+                        Duration.zero,
+                        index: audioPlayer.effectiveIndices!.first,
+                      );
                 }
 
                 return icon != null

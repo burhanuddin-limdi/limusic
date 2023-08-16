@@ -5,11 +5,7 @@ MediaItem mapToMediaItem(dynamic song, String songUrl) => MediaItem(
       album: '',
       artist: song.author.toString(),
       title: song.title.toString(),
-      // extras: {
-      //   'url': songUrl,
-      //   'lowResImage': song['lowResImage'],
-      //   'ytid': song['ytid'],
-      //   'localSongId': song['localSongId'],
-      //   'isLive': song['isLive'],
-      // },
+      artUri: Uri.parse(
+        'https://img.youtube.com/vi/${song.id}/hqdefault.jpg',
+      ),
     );
