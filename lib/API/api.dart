@@ -157,7 +157,7 @@ Future<List<Map<String, int>>> getSkipSegments(String id) async {
     } else {
       return [];
     }
-  } catch (e, stack) {
+  } catch (e) {
     // Logger.log('Error in getSkipSegments: $e $stack');
     return [];
   }

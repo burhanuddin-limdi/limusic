@@ -47,7 +47,7 @@ class _MusicPlayerState extends State<MusicPlayer> {
                   children: [
                     Container(
                       width: 250,
-                      padding: EdgeInsets.only(top: 50),
+                      padding: const EdgeInsets.only(top: 50),
                       child: Text(
                         formatSongTitle(widget.song.title.toString()),
                         textAlign: TextAlign.center,
@@ -65,7 +65,7 @@ class _MusicPlayerState extends State<MusicPlayer> {
                   children: [
                     Container(
                       width: 250,
-                      padding: EdgeInsets.only(top: 15),
+                      padding: const EdgeInsets.only(top: 15),
                       child: Text(
                         formatSongTitle(widget.song.author.toString()),
                         textAlign: TextAlign.center,

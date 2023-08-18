@@ -5,6 +5,7 @@ import 'package:limusic/style/theme.dart';
 import './pages/root_page.dart';
 import 'blocs/root_bloc/root_bloc.dart';
 import 'package:just_audio_background/just_audio_background.dart';
+import 'package:flutter_downloader/flutter_downloader.dart';
 
 void main() async {
   await initialisation();
@@ -19,6 +20,8 @@ Future<void> initialisation() async {
     androidNotificationChannelName: 'Audio Playback',
     androidNotificationOngoing: true,
   );
+
+  await FlutterDownloader.initialize(debug: true, ignoreSsl: true);
   // Hive.box('user').clear();
 }
 

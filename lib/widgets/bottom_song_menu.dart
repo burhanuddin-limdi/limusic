@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:limusic/API/api.dart';
+import 'package:limusic/services/download_manager.dart';
 import 'bottom_playist_menu.dart';
 
 dynamic openBottomSongMenu(context, dynamic song) {
@@ -115,7 +116,9 @@ class _BottomSongMenuState extends State<BottomSongMenu> {
                   Column(
                     children: [
                       ListTile(
-                        onTap: () {},
+                        onTap: () {
+                          downloadSong(widget.song);
+                        },
                         leading: const Icon(
                           Icons.download_rounded,
                           color: Colors.white,
