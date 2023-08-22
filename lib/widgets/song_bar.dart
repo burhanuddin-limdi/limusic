@@ -45,12 +45,10 @@ class _SongBarState extends State<SongBar> {
           return InkWell(
             onLongPress: () => openBottomSongMenu(context, widget.song),
             onTap: () async {
-              BlocProvider.of<RootBloc>(context)
-                  .changeData(state.route, widget.song);
+              BlocProvider.of<RootBloc>(context).changeData(widget.song);
               bool removeConstBar = await playSong(widget.song);
               if (!removeConstBar) {
-                BlocProvider.of<RootBloc>(context)
-                    .changeData(state.route, null);
+                BlocProvider.of<RootBloc>(context).changeData(null);
               }
             },
             child: Row(

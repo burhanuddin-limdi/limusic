@@ -22,8 +22,6 @@ class _MinMusicPlayerState extends State<MinMusicPlayer> {
           width: MediaQuery.of(context).size.width - 20,
           decoration: BoxDecoration(
             color: Theme.of(context).colorScheme.tertiary,
-            // border: Border.all(
-            //     color: Theme.of(context).colorScheme.tertiary, width: 3),
             borderRadius: const BorderRadius.all(Radius.circular(10)),
           ),
           child: ListTile(
@@ -37,7 +35,8 @@ class _MinMusicPlayerState extends State<MinMusicPlayer> {
                     color: Theme.of(context).colorScheme.secondary, width: 1),
                 image: DecorationImage(
                   image: NetworkImage(
-                      'https://img.youtube.com/vi/${state.song.id}/default.jpg'),
+                    'https://img.youtube.com/vi/${state.song.id}/default.jpg',
+                  ),
                   centerSlice: const Rect.fromLTRB(1, 1, 1, 1),
                   fit: BoxFit.fill,
                 ),

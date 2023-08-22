@@ -82,11 +82,13 @@ class _LibraryPageState extends State<LibraryPage> {
                           return BlocBuilder<RootBloc, RootState>(
                             builder: (context, state) {
                               return GestureDetector(
-                                onTap: () => BlocProvider.of<RootBloc>(context)
-                                    .changeData(
-                                        UserPlaylistPage(
-                                            playlist: snapshot.data?[index]),
-                                        state.song),
+                                onTap: () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => UserPlaylistPage(
+                                        playlist: snapshot.data?[index]),
+                                  ),
+                                ),
                                 child: Card(
                                   color: Colors.amber,
                                   child: Center(

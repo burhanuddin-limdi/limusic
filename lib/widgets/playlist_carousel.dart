@@ -13,7 +13,6 @@ class PlaylistCarousel extends StatelessWidget {
       itemCount: playlist.length,
       itemBuilder: (context, index) {
         return PlaylistCard(
-          // rootBloc: rootBloc,
           playlist: playlist[index],
         );
       },

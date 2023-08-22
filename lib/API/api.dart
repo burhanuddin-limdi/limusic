@@ -41,6 +41,7 @@ Future getvideo() async {
 }
 
 Future getTopDaily() async {
+  print('called');
   var playlist =
       await yt.playlists.getVideos(topDailyMusicId).take(25).toList();
   return playlist;

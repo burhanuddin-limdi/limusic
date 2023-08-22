@@ -13,8 +13,12 @@ class PlaylistCard extends StatelessWidget {
     return BlocBuilder<RootBloc, RootState>(
       builder: (context, state) {
         return GestureDetector(
-          onTap: () => BlocProvider.of<RootBloc>(context)
-              .changeData(PlaylistPage(playlist: playlist), state.song),
+          onTap: () => Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => PlaylistPage(playlist: playlist),
+            ),
+          ),
           // rootBloc.add(ChangeRootRouteEvent(PlaylistPage(playlist: playlist))),
           child: SizedBox(
             width: 150.0,

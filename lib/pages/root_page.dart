@@ -8,10 +8,8 @@ import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:flutter_snake_navigationbar/flutter_snake_navigationbar.dart';
 import 'package:limusic/blocs/root_bloc/root_bloc.dart';
 import 'package:limusic/services/download_manager.dart';
+import 'package:limusic/services/router_service.dart';
 import 'package:limusic/widgets/min_music_player.dart';
-import './home_page.dart';
-import './search_page.dart';
-import './library_page.dart';
 
 class RootPage extends StatefulWidget {
   const RootPage({super.key});
@@ -20,8 +18,10 @@ class RootPage extends StatefulWidget {
   RootPageState createState() => RootPageState();
 }
 
+final _navigatorKey = GlobalKey<NavigatorState>();
+
 class RootPageState extends State<RootPage> {
-  List screens = [const HomePage(), const SearchPage(), const LibraryPage()];
+  List routes = ['/home', '/library', '/search'];
 
   int selectedIndex = 0;
   SnakeBarBehaviour snakeBarStyle = SnakeBarBehaviour.floating;
@@ -63,32 +63,24 @@ class RootPageState extends State<RootPage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<RootBloc, RootState>(
-      listener: (context, state) {},
-      builder: (context, state) {
-        return Scaffold(
-          body: Column(
-            children: [
-              Expanded(
-                child: Stack(
-                  children: [
-                    Positioned(
-                      child: state.route ?? const HomePage(),
-                    ),
-                    Positioned(
-                      bottom: 10,
-                      left: 10,
-                      child: Visibility(
-                        visible: state.song != null ? true : false,
-                        child: const MinMusicPlayer(),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
+    return Scaffold(
+      body: Navigator(
+        key: _navigatorKey,
+        initialRoute: RoutePaths.home,
+        onGenerateRoute: RouterService.generateRoute,
+      ),
+      bottomNavigationBar: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          BlocBuilder<RootBloc, RootState>(
+            builder: (context, state) {
+              return Visibility(
+                visible: state.song != null ? true : false,
+                child: const MinMusicPlayer(),
+              );
+            },
           ),
-          bottomNavigationBar: SnakeNavigationBar.color(
+          SnakeNavigationBar.color(
             backgroundColor: Theme.of(context).scaffoldBackgroundColor,
             behaviour: snakeBarStyle,
             snakeShape: snakeShape,
@@ -103,8 +95,10 @@ class RootPageState extends State<RootPage> {
             currentIndex: selectedIndex,
             onTap: (index) {
               setState(() => selectedIndex = index);
-              BlocProvider.of<RootBloc>(context)
-                  .changeData(screens[selectedIndex], state.song);
+              _navigatorKey.currentState!.pushNamedAndRemoveUntil(
+                destinations[index],
+                ModalRoute.withName(destinations[index]),
+              );
             },
             items: [
               BottomNavigationBarItem(
@@ -130,8 +124,8 @@ class RootPageState extends State<RootPage> {
               ),
             ],
           ),
-        );
-      },
+        ],
+      ),
     );
   }
 }

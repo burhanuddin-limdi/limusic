@@ -6,6 +6,5 @@ part 'root_state.dart';
 
 class RootBloc extends Bloc<RootEvent, RootState> {
   RootBloc() : super(const RootInitial());
-  void changeData(dynamic route, dynamic song) =>
-      emit(ChangeRootRoute(route: route, song: song));
+  void changeData(dynamic song) => emit(ChangeRootRoute(song: song));
 }

@@ -2,10 +2,9 @@ part of 'root_bloc.dart';
 
 @immutable
 abstract class RootState {
-  final dynamic route;
   final dynamic song;
 
-  const RootState({this.route, this.song});
+  const RootState({this.song});
 }
 
 class RootInitial extends RootState {
@@ -13,5 +12,5 @@ class RootInitial extends RootState {
 }
 
 class ChangeRootRoute extends RootState {
-  const ChangeRootRoute({super.route, super.song});
+  const ChangeRootRoute({super.song});
 }

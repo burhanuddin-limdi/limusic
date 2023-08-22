@@ -4,7 +4,7 @@ import '../widgets/song_bar.dart';
 
 class PlaylistPage extends StatefulWidget {
   final dynamic playlist;
-  const PlaylistPage({super.key, required this.playlist});
+  const PlaylistPage({super.key, this.playlist});
   @override
   State<PlaylistPage> createState() => _PlaylistPageState();
 }
