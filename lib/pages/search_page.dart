@@ -16,6 +16,7 @@ class _SearchPageState extends State<SearchPage> {
   late ValueNotifier<bool> _fetchingSongs;
   late FocusNode _inputNode;
   List _searchResult = [];
+  List _suggestionsList = [];
 
   @override
   void initState() {
@@ -30,7 +31,7 @@ class _SearchPageState extends State<SearchPage> {
 
     if (query.isEmpty) {
       _searchResult = [];
-      // _suggestionsList = [];
+      _suggestionsList = [];
       setState(() {});
       return;
     }
@@ -38,11 +39,6 @@ class _SearchPageState extends State<SearchPage> {
     if (!_fetchingSongs.value) {
       _fetchingSongs.value = true;
     }
-
-    // if (!searchHistory.contains(query)) {
-    //   searchHistory.insert(0, query);
-    //   addOrUpdateData('user', 'searchHistory', searchHistory);
-    // }
 
     try {
       _searchResult = await fetchSongsList(query);
@@ -82,6 +78,15 @@ class _SearchPageState extends State<SearchPage> {
             padding: const EdgeInsets.all(10),
             child: TextField(
               textInputAction: TextInputAction.search,
+              onChanged: (value) async {
+                if (value != '') {
+                  _searchResult = [];
+                  _suggestionsList = await getSearchSuggestions(value);
+                } else {
+                  _suggestionsList = [];
+                }
+                setState(() {});
+              },
               onSubmitted: (value) {
                 search();
               },
@@ -129,20 +134,51 @@ class _SearchPageState extends State<SearchPage> {
               ),
             ),
           ),
-          ListView.builder(
-            scrollDirection: Axis.vertical,
-            shrinkWrap: true,
-            physics: const ClampingScrollPhysics(),
-            itemCount: _searchResult.length,
-            itemBuilder: (BuildContext context, int index) {
-              return Padding(
-                padding: const EdgeInsets.symmetric(vertical: 5),
-                child: SongBar(
-                  _searchResult[index],
-                ),
-              );
-            },
-          )
+          if (_searchResult.isEmpty)
+            ListView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: _suggestionsList.length,
+              itemBuilder: (BuildContext context, int index) {
+                final query = _suggestionsList[index];
+
+                return Padding(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 12,
+                    horizontal: 5,
+                  ),
+                  child: Card(
+                    child: ListTile(
+                      leading: Icon(
+                        Icons.search_rounded,
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
+                      title: Text(query),
+                      onTap: () async {
+                        _searchBar.text = query;
+                        await search();
+                        _inputNode.unfocus();
+                      },
+                    ),
+                  ),
+                );
+              },
+            )
+          else
+            ListView.builder(
+              scrollDirection: Axis.vertical,
+              shrinkWrap: true,
+              physics: const ClampingScrollPhysics(),
+              itemCount: _searchResult.length,
+              itemBuilder: (BuildContext context, int index) {
+                return Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 5),
+                  child: SongBar(
+                    _searchResult[index],
+                  ),
+                );
+              },
+            )
         ],
       ),
     );
