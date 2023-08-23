@@ -54,7 +54,7 @@ class _BottomSongMenuState extends State<BottomSongMenu> {
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
                   // color: Colors.black.withOpacity(0.5),
-                  color: Theme.of(context).colorScheme.primary.withOpacity(0.5),
+                  color: Theme.of(context).colorScheme.primary.withOpacity(0.7),
                   borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(10),
                     topRight: Radius.circular(10),

@@ -17,25 +17,37 @@ Future<bool> playSong(dynamic song) async {
     final segments = await getSkipSegments(song.id.toString());
     if (segments.isNotEmpty) {
       if (segments.length == 1) {
-        await audioPlayer.setAudioSource(
-          ClippingAudioSource(
-            child: audioSource,
-            start: Duration(seconds: segments[0]['end']!),
-            tag: audioSource.tag,
-          ),
-        );
+        try {
+          await audioPlayer.setAudioSource(
+            ClippingAudioSource(
+              child: audioSource,
+              start: Duration(seconds: segments[0]['end']!),
+              tag: audioSource.tag,
+            ),
+          );
+        } catch (e) {
+          playSong(song);
+        }
       } else {
-        await audioPlayer.setAudioSource(
-          ClippingAudioSource(
-            child: audioSource,
-            start: Duration(seconds: segments[0]['end']!),
-            end: Duration(seconds: segments[1]['start']!),
-            tag: audioSource.tag,
-          ),
-        );
+        try {
+          await audioPlayer.setAudioSource(
+            ClippingAudioSource(
+              child: audioSource,
+              start: Duration(seconds: segments[0]['end']!),
+              end: Duration(seconds: segments[1]['start']!),
+              tag: audioSource.tag,
+            ),
+          );
+        } catch (e) {
+          playSong(song);
+        }
       }
     } else {
-      await audioPlayer.setAudioSource(audioSource);
+      try {
+        await audioPlayer.setAudioSource(audioSource);
+      } catch (e) {
+        playSong(song);
+      }
     }
     await audioPlayer.play();
     return true;

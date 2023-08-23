@@ -18,6 +18,7 @@ class _MinMusicPlayerState extends State<MinMusicPlayer> {
   Widget build(BuildContext context) {
     return BlocBuilder<RootBloc, RootState>(
       builder: (context, state) {
+        final songState = state as ChangeSongState;
         return Container(
           width: MediaQuery.of(context).size.width - 20,
           decoration: BoxDecoration(
@@ -25,7 +26,7 @@ class _MinMusicPlayerState extends State<MinMusicPlayer> {
             borderRadius: const BorderRadius.all(Radius.circular(10)),
           ),
           child: ListTile(
-            onTap: () => openMusicPlayer(context, state.song),
+            onTap: () => openMusicPlayer(context, songState.song),
             leading: Container(
               width: 55,
               height: 55,

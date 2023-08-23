@@ -108,8 +108,9 @@ class _LibraryPageState extends State<LibraryPage> {
               ),
               BlocBuilder<RootBloc, RootState>(
                 builder: (context, state) {
+                  final songState = state as ChangeSongState;
                   return Positioned(
-                    bottom: state.song != null ? 70 : 20,
+                    bottom: songState.song != null ? 70 : 20,
                     right: 20,
                     child: ElevatedButton(
                       onPressed: () {

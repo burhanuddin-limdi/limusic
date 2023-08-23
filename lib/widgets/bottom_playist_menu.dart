@@ -25,7 +25,8 @@ dynamic openBottomPlaylistMenu(context, song) {
                   height: 600,
                   width: MediaQuery.of(context).size.width,
                   decoration: BoxDecoration(
-                    color: Colors.black.withOpacity(0.5),
+                    color:
+                        Theme.of(context).colorScheme.primary.withOpacity(0.7),
                     borderRadius: const BorderRadius.only(
                       topLeft: Radius.circular(10),
                       topRight: Radius.circular(10),
@@ -87,11 +88,8 @@ dynamic openBottomPlaylistMenu(context, song) {
                                           onPressed: () {
                                             addUserPlaylist(myController.text);
                                             myController.text = '';
-                                            // _refreshIndicatorKey.currentState?.show();
                                             Navigator.of(context).pop();
-                                            Navigator.of(context).pop();
-                                            openBottomPlaylistMenu(
-                                                context, song);
+                                            getUserPlaylist();
                                           },
                                           child: const Text('Create'),
                                         )
@@ -139,23 +137,27 @@ dynamic openBottomPlaylistMenu(context, song) {
                                 physics: const ClampingScrollPhysics(),
                                 itemCount: snapshot.data?.length,
                                 itemBuilder: (context, index) {
-                                  return GestureDetector(
-                                    onTap: () {
-                                      addSongToUserPlaylist(
-                                        snapshot.data?[index]['key'],
-                                        song.id.toString(),
-                                      );
-                                      Navigator.of(context).pop();
-                                    },
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(10),
-                                      child: Text(
-                                        capitalize(
-                                            snapshot.data?[index]['key']),
-                                        style: const TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.w500,
+                                  return Visibility(
+                                    visible: snapshot.data?[index]['key'] !=
+                                        'Liked Songs',
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        addSongToUserPlaylist(
+                                          snapshot.data?[index]['key'],
+                                          song.id.toString(),
+                                        );
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(10),
+                                        child: Text(
+                                          capitalize(
+                                              snapshot.data?[index]['key']),
+                                          style: const TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.w500,
+                                          ),
                                         ),
                                       ),
                                     ),
@@ -183,11 +185,11 @@ dynamic openBottomPlaylistMenu(context, song) {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    TextButton(
+                    IconButton(
                       onPressed: () => Navigator.of(context).pop(),
-                      child: const Text(
-                        'close',
-                        style: TextStyle(color: Colors.white, fontSize: 20),
+                      icon: const Icon(
+                        Icons.close,
+                        color: Colors.white,
                       ),
                     ),
                   ],
@@ -200,30 +202,3 @@ dynamic openBottomPlaylistMenu(context, song) {
     },
   );
 }
-
-// dynamic openBottomPlaylistMenu(context, song) async {
-//   return showAdaptiveActionSheet(
-//       context: context,
-//       androidBorderRadius: 10,
-//       actions: await createPLaylistList(song));
-// }
-
-// Future<List<BottomSheetAction>> createPLaylistList(song) async {
-//   List<BottomSheetAction> playlistList = [];
-//   dynamic userPlaylist = await getUserPlaylist();
-//   for (final playlist in userPlaylist) {
-//     dynamic playlistTile = BottomSheetAction(
-//       title: Row(
-//         children: [
-//           Text(playlist['key'].toString()),
-//         ],
-//       ),
-//       onPressed: (context) {
-//         addSongToUserPlaylist(playlist['key'], song.id.toString());
-//         Navigator.of(context).pop();
-//       },
-//     );
-//     playlistList.add(playlistTile);
-//   }
-//   return playlistList;
-// }

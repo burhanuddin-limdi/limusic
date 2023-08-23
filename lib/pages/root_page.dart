@@ -74,8 +74,9 @@ class RootPageState extends State<RootPage> {
         children: [
           BlocBuilder<RootBloc, RootState>(
             builder: (context, state) {
+              final songState = state as ChangeSongState;
               return Visibility(
-                visible: state.song != null ? true : false,
+                visible: songState.song != null ? true : false,
                 child: const MinMusicPlayer(),
               );
             },

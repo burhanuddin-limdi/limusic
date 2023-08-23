@@ -3,8 +3,8 @@ part of 'root_bloc.dart';
 @immutable
 abstract class RootEvent {}
 
-class ChangeCurrentSongEvent extends RootEvent {
+class ChangeSongEvent extends RootEvent {
   final dynamic currentSong;
 
-  ChangeCurrentSongEvent(this.currentSong);
+  ChangeSongEvent(this.currentSong);
 }
