@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:limusic/pages/user_playlist_page.dart';
+import 'package:limusic/widgets/library_menu.dart';
 import '../API/api.dart';
-import '../blocs/root_bloc/root_bloc.dart';
 
 class LibraryPage extends StatefulWidget {
   const LibraryPage({super.key});
@@ -18,11 +17,13 @@ class _LibraryPageState extends State<LibraryPage> {
 
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
       GlobalKey<RefreshIndicatorState>();
+  bool isNameValid = true;
 
   @override
   void initState() {
     super.initState();
     _getUserPlaylistData();
+    isNameValid = true;
   }
 
   Future<void> _getUserPlaylistData() async {
@@ -79,26 +80,32 @@ class _LibraryPageState extends State<LibraryPage> {
                         ),
                         itemCount: snapshot.data?.length,
                         itemBuilder: (BuildContext context, int index) {
-                          return BlocBuilder<RootBloc, RootState>(
-                            builder: (context, state) {
-                              return GestureDetector(
-                                onTap: () => Navigator.push(
+                          return GestureDetector(
+                            onLongPress: () {
+                              if (snapshot.data?[index]['key'] !=
+                                  'Liked Songs') {
+                                openLibraryMenu(
                                   context,
-                                  MaterialPageRoute(
-                                    builder: (context) => UserPlaylistPage(
-                                        playlist: snapshot.data?[index]),
-                                  ),
-                                ),
-                                child: Card(
-                                  color: Colors.amber,
-                                  child: Center(
-                                    child: Text(
-                                      snapshot.data?[index]['key'],
-                                    ),
-                                  ),
-                                ),
-                              );
+                                  snapshot.data?[index]['key'],
+                                );
+                              }
                             },
+                            onTap: () => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => UserPlaylistPage(
+                                  playlist: snapshot.data?[index],
+                                ),
+                              ),
+                            ),
+                            child: Card(
+                              color: Colors.amber,
+                              child: Center(
+                                child: Text(
+                                  snapshot.data?[index]['key'],
+                                ),
+                              ),
+                            ),
                           );
                         },
                       );
@@ -106,45 +113,69 @@ class _LibraryPageState extends State<LibraryPage> {
                   },
                 ),
               ),
-              BlocBuilder<RootBloc, RootState>(
-                builder: (context, state) {
-                  final songState = state as ChangeSongState;
-                  return Positioned(
-                    bottom: songState.song != null ? 70 : 20,
-                    right: 20,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return AlertDialog(
-                              title: const Text('Create Playlist'),
-                              content: TextField(
+              Positioned(
+                bottom: 10,
+                right: 20,
+                child: ElevatedButton(
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: const Text('Create Playlist'),
+                          content: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              TextField(
                                 controller: myController,
+                                onChanged: (value) => setState(
+                                  () => isNameValid = true,
+                                ),
                                 decoration: const InputDecoration(
                                   border: OutlineInputBorder(),
                                   labelText: 'Enter Playlist Name',
                                 ),
                               ),
-                              actions: [
-                                TextButton(
-                                  onPressed: () {
+                              Visibility(
+                                visible: !isNameValid,
+                                child: const Text(
+                                  'Playist already exists',
+                                  style: TextStyle(color: Colors.red),
+                                ),
+                              )
+                            ],
+                          ),
+                          actions: [
+                            TextButton(
+                              onPressed: () => Navigator.of(context).pop(),
+                              child: const Text('Cancel'),
+                            ),
+                            TextButton(
+                              child: const Text('Create'),
+                              onPressed: () async {
+                                if (myController.text.isNotEmpty) {
+                                  if (await checkForDuplicatePlaylist(
+                                      myController.text)) {
+                                    setState(() {
+                                      isNameValid = false;
+                                    });
+                                    _refreshIndicatorKey.currentState?.show();
+                                  } else {
                                     addUserPlaylist(myController.text);
                                     myController.text = '';
                                     _refreshIndicatorKey.currentState?.show();
                                     Navigator.of(context).pop();
-                                  },
-                                  child: const Text('Create'),
-                                )
-                              ],
-                            );
-                          },
+                                  }
+                                }
+                              },
+                            )
+                          ],
                         );
                       },
-                      child: const Icon(Icons.add),
-                    ),
-                  );
-                },
+                    );
+                  },
+                  child: const Icon(Icons.add),
+                ),
               ),
             ],
           ),

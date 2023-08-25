@@ -21,11 +21,11 @@ class RouterService {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case RoutePaths.home:
-        return MaterialPageRoute(builder: (_) => HomePage());
+        return MaterialPageRoute(builder: (_) => const HomePage());
       case RoutePaths.search:
-        return MaterialPageRoute(builder: (_) => SearchPage());
+        return MaterialPageRoute(builder: (_) => const SearchPage());
       case RoutePaths.library:
-        return MaterialPageRoute(builder: (_) => LibraryPage());
+        return MaterialPageRoute(builder: (_) => const LibraryPage());
 
       default:
         throw Exception('Invalid route: ${settings.name}');

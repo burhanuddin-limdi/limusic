@@ -75,7 +75,6 @@ class HomePageState extends State<HomePage> {
           FutureBuilder(
             future: getTopDaily(),
             builder: (context, AsyncSnapshot<dynamic> snapshot) {
-              print('future builder called');
               switch (snapshot.connectionState) {
                 case ConnectionState.waiting:
                   return const CircularProgressIndicator();

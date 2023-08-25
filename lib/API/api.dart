@@ -41,7 +41,6 @@ Future getvideo() async {
 }
 
 Future getTopDaily() async {
-  print('called');
   var playlist =
       await yt.playlists.getVideos(topDailyMusicId).take(25).toList();
   return playlist;
@@ -64,6 +63,14 @@ void addUserPlaylist(String playlistName) {
   addOrUpdateData('user', 'playlists', userPlaylists);
 }
 
+void deleteUserPlaylist(String playlistName) {
+  dynamic foundPlaylist = userPlaylists.firstWhere(
+    (element) => element['key'] == playlistName,
+  );
+  userPlaylists.remove(foundPlaylist);
+  addOrUpdateData('user', 'playlists', userPlaylists);
+}
+
 void addSongToUserPlaylist(String playlsitName, String songId) {
   dynamic foundPlaylist =
       userPlaylists.firstWhere((element) => element['key'] == playlsitName);
@@ -80,6 +87,7 @@ void onLikeSong(String songId) {
 void onDislikeSong(String songId) {
   dynamic likedSongsPlaylist = userPlaylists[0];
   likedSongsPlaylist['value'].remove(songId);
+  addOrUpdateData('user', 'playlists', userPlaylists);
 }
 
 bool checkForSongLiked(String sondId) {
@@ -89,6 +97,15 @@ bool checkForSongLiked(String sondId) {
   } else {
     return likedSongsPlaylist['value'].contains(sondId);
   }
+}
+
+Future<bool> checkForDuplicatePlaylist(String playlistName) async {
+  for (var playlist in userPlaylists) {
+    if (playlist['key'] == playlistName) {
+      return true;
+    }
+  }
+  return false;
 }
 
 Future getUserPlaylistSongs(songIds) async {
