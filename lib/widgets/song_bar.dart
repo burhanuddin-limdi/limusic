@@ -1,13 +1,20 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:limusic/services/audio_manager.dart';
 import '../API/api.dart';
 import '../blocs/root_bloc/root_bloc.dart';
 import 'bottom_song_menu.dart';
-import '../services/audio_manager.dart';
 
 class SongBar extends StatefulWidget {
-  const SongBar(this.song, {super.key});
+  const SongBar({
+    super.key,
+    this.song,
+    this.playlist,
+  });
   final dynamic song;
+  final List? playlist;
 
   @override
   State<SongBar> createState() => _SongBarState();
@@ -45,11 +52,20 @@ class _SongBarState extends State<SongBar> {
           return InkWell(
             onLongPress: () => openBottomSongMenu(context, widget.song),
             onTap: () async {
-              BlocProvider.of<RootBloc>(context)
-                  .add(ChangeSongEvent(widget.song));
+              BlocProvider.of<RootBloc>(context).add(
+                ChangeSongEvent(
+                  currentSong: widget.song,
+                  currentPlaylist: widget.playlist,
+                ),
+              );
               bool removeConstBar = await playSong(widget.song);
               if (!removeConstBar) {
-                BlocProvider.of<RootBloc>(context).add(ChangeSongEvent(null));
+                BlocProvider.of<RootBloc>(context).add(
+                  ChangeSongEvent(
+                    currentSong: null,
+                    currentPlaylist: null,
+                  ),
+                );
               }
             },
             child: Row(
@@ -146,62 +162,6 @@ class _SongBarState extends State<SongBar> {
     );
   }
 }
-
-// dynamic openBottomMenu(context, dynamic song) {
-//   return showAdaptiveActionSheet(
-//     androidBorderRadius: 10,
-//     context: context,
-//     actions: <BottomSheetAction>[
-//       BottomSheetAction(
-//         title: const Row(
-//           children: [
-//             Icon(Icons.download),
-//             Padding(
-//               padding: EdgeInsets.only(left: 10.0),
-//               child: Text(
-//                 'Download',
-//                 textAlign: TextAlign.start,
-//               ),
-//             ),
-//           ],
-//         ),
-//         onPressed: (_) {},
-//       ),
-//       BottomSheetAction(
-//         title: const Row(
-//           children: [
-//             Icon(Icons.add_box_outlined),
-//             Padding(
-//               padding: EdgeInsets.only(left: 10.0),
-//               child: Text(
-//                 'Add to Playlist',
-//                 textAlign: TextAlign.start,
-//               ),
-//             ),
-//           ],
-//         ),
-//         onPressed: (BuildContext context) {
-//           print(song.id.toString());
-//         },
-//       ),
-//       BottomSheetAction(
-//         title: const Row(
-//           children: [
-//             Icon(Icons.favorite),
-//             Padding(
-//               padding: EdgeInsets.only(left: 10.0),
-//               child: Text(
-//                 'Like',
-//                 textAlign: TextAlign.start,
-//               ),
-//             ),
-//           ],
-//         ),
-//         onPressed: (_) {},
-//       ),
-//     ],
-//   );
-// }
 
 String createTitle(String title) {
   if (title.contains('-')) {

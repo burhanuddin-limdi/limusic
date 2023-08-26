@@ -48,7 +48,10 @@ class _PlaylistPageState extends State<PlaylistPage> {
                         physics: const ClampingScrollPhysics(),
                         itemCount: snapshot.data.length as int,
                         itemBuilder: (context, index) {
-                          return SongBar(snapshot.data[index]);
+                          return SongBar(
+                            song: snapshot.data[index],
+                            playlist: snapshot.data,
+                          );
                         },
                       ),
                     ],

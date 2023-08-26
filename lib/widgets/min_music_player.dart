@@ -16,6 +16,15 @@ class MinMusicPlayer extends StatefulWidget {
 class _MinMusicPlayerState extends State<MinMusicPlayer> {
   @override
   Widget build(BuildContext context) {
+    // ignore: no_leading_underscores_for_local_identifiers
+    void _openMusicPlayer(context, song, playlist) {
+      openMusicPlayer(
+        context,
+        song,
+        playlist,
+      );
+    }
+
     return BlocBuilder<RootBloc, RootState>(
       builder: (context, state) {
         final songState = state as ChangeSongState;
@@ -26,7 +35,11 @@ class _MinMusicPlayerState extends State<MinMusicPlayer> {
             borderRadius: const BorderRadius.all(Radius.circular(10)),
           ),
           child: ListTile(
-            onTap: () => openMusicPlayer(context, songState.song),
+            onTap: () => _openMusicPlayer(
+              context,
+              songState.song,
+              songState.playlist,
+            ),
             leading: Container(
               width: 55,
               height: 55,

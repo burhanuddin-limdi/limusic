@@ -7,5 +7,6 @@ abstract class RootState {
 
 class ChangeSongState extends RootState {
   final dynamic song;
-  const ChangeSongState({this.song});
+  final List? playlist;
+  const ChangeSongState({this.song, this.playlist});
 }

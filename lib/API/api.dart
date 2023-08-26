@@ -71,6 +71,14 @@ void deleteUserPlaylist(String playlistName) {
   addOrUpdateData('user', 'playlists', userPlaylists);
 }
 
+void renameUserPlaylist(String oldName, String newName) {
+  dynamic foundPlaylist = userPlaylists.firstWhere(
+    (element) => element['key'] == oldName,
+  );
+  foundPlaylist['key'] = newName;
+  addOrUpdateData('user', 'playlists', userPlaylists);
+}
+
 void addSongToUserPlaylist(String playlsitName, String songId) {
   dynamic foundPlaylist =
       userPlaylists.firstWhere((element) => element['key'] == playlsitName);
@@ -202,4 +210,12 @@ Future<List> getSearchSuggestions(String query) async {
     // Logger.log('Error in getSearchSuggestions: $e');
     return [];
   }
+}
+
+List createPlaylistData({dynamic rawPlaylist}) {
+  List playlist = [];
+  for (var p in rawPlaylist) {
+    playlist.add(p.id.toString());
+  }
+  return playlist;
 }

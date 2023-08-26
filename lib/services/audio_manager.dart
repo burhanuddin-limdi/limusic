@@ -56,8 +56,12 @@ Future<bool> playSong(dynamic song) async {
   }
 }
 
-Future<void> pauseSong() async {
-  await audioPlayer.pause();
+Future<dynamic> playNext({song, playlist}) async {
+  print(song);
+  print(playlist);
+  int index = playlist.indexWhere((item) => item.id == song.id);
+  playSong(playlist[index + 1]);
+  return playlist[index + 1];
 }
 
 Stream<PositionData> get positionDataStream =>

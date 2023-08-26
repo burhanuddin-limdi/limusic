@@ -5,6 +5,6 @@ abstract class RootEvent {}
 
 class ChangeSongEvent extends RootEvent {
   final dynamic currentSong;
-
-  ChangeSongEvent(this.currentSong);
+  final List? currentPlaylist;
+  ChangeSongEvent({this.currentSong, this.currentPlaylist});
 }

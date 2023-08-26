@@ -8,6 +8,7 @@ class UserPlaylistPage extends StatelessWidget {
   const UserPlaylistPage({super.key, this.playlist});
   @override
   Widget build(BuildContext context) {
+    print(playlist);
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -44,7 +45,10 @@ class UserPlaylistPage extends StatelessWidget {
                           physics: const ClampingScrollPhysics(),
                           itemCount: snapshot.data.length as int,
                           itemBuilder: (context, index) {
-                            return SongBar(snapshot.data[index]);
+                            return SongBar(
+                              song: snapshot.data[index],
+                              playlist: snapshot.data,
+                            );
                           },
                         ),
                       ],

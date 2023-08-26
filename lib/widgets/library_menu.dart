@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -10,6 +12,7 @@ dynamic openLibraryMenu(context, playlistKey) {
     BlocProvider.of<RefreshPageBloc>(context).add(OnRefreshPageEvent());
   }
 
+  final myController = TextEditingController();
   return showModalBottomSheet(
     context: context,
     backgroundColor: Colors.transparent,
@@ -44,7 +47,60 @@ dynamic openLibraryMenu(context, playlistKey) {
                           refreshPage();
                         },
                         title: const Text('Delete playlist'),
-                      )
+                      ),
+                      ListTile(
+                        onTap: () {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: const Text('Create Playlist'),
+                                content: TextField(
+                                  controller: myController,
+                                  decoration: const InputDecoration(
+                                    border: OutlineInputBorder(),
+                                    labelText: 'Enter Playlist Name',
+                                  ),
+                                ),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () =>
+                                        Navigator.of(context).pop(),
+                                    child: const Text('Cancel'),
+                                  ),
+                                  TextButton(
+                                    child: const Text('Rename'),
+                                    onPressed: () async {
+                                      if (myController.text.isNotEmpty) {
+                                        if (await checkForDuplicatePlaylist(
+                                            myController.text)) {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            const SnackBar(
+                                              content: Text(
+                                                'Playlist already exists. Try another name',
+                                              ),
+                                            ),
+                                          );
+                                        } else {
+                                          renameUserPlaylist(
+                                            playlistKey,
+                                            myController.text,
+                                          );
+                                          myController.text = '';
+                                        }
+                                        refreshPage();
+                                        Navigator.of(context).pop();
+                                      }
+                                    },
+                                  )
+                                ],
+                              );
+                            },
+                          );
+                        },
+                        title: const Text('Rename playlist'),
+                      ),
                     ],
                   ),
                 ),

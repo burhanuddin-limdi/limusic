@@ -174,7 +174,8 @@ class _SearchPageState extends State<SearchPage> {
                 return Padding(
                   padding: const EdgeInsets.symmetric(vertical: 5),
                   child: SongBar(
-                    _searchResult[index],
+                    song: _searchResult[index],
+                    playlist: _searchResult,
                   ),
                 );
               },

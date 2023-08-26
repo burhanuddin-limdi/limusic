@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:limusic/blocs/refresh_page_bloc/refresh_page_bloc.dart';
@@ -19,13 +21,11 @@ class _LibraryPageState extends State<LibraryPage> {
 
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
       GlobalKey<RefreshIndicatorState>();
-  bool isNameValid = true;
 
   @override
   void initState() {
     super.initState();
     _getUserPlaylistData();
-    isNameValid = true;
   }
 
   Future<void> _getUserPlaylistData() async {
@@ -108,11 +108,47 @@ class _LibraryPageState extends State<LibraryPage> {
                                     ),
                                   ),
                                 ),
-                                child: Card(
-                                  color: Colors.amber,
-                                  child: Center(
-                                    child: Text(
-                                      snapshot.data?[index]['key'],
+                                child: SizedBox(
+                                  width: 150.0,
+                                  height: 150.0,
+                                  child: Container(
+                                    margin: const EdgeInsets.only(
+                                      left: 5,
+                                      right: 12,
+                                      top: 0,
+                                      bottom: 12,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .secondary,
+                                      borderRadius: BorderRadius.circular(12),
+                                      border: Border.all(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .primary,
+                                          width: 3),
+                                      boxShadow: [
+                                        BoxShadow(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .primary,
+                                            offset: const Offset(9, 9),
+                                            spreadRadius: -1,
+                                            blurRadius: 0)
+                                      ],
+                                    ),
+                                    child: Center(
+                                      child: Text(
+                                        snapshot.data?[index]['key'],
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .tertiary,
+                                            fontSize: 17,
+                                            fontWeight: FontWeight.w600),
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -133,27 +169,12 @@ class _LibraryPageState extends State<LibraryPage> {
                           builder: (BuildContext context) {
                             return AlertDialog(
                               title: const Text('Create Playlist'),
-                              content: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  TextField(
-                                    controller: myController,
-                                    onChanged: (value) => setState(
-                                      () => isNameValid = true,
-                                    ),
-                                    decoration: const InputDecoration(
-                                      border: OutlineInputBorder(),
-                                      labelText: 'Enter Playlist Name',
-                                    ),
-                                  ),
-                                  Visibility(
-                                    visible: !isNameValid,
-                                    child: const Text(
-                                      'Playist already exists',
-                                      style: TextStyle(color: Colors.red),
-                                    ),
-                                  )
-                                ],
+                              content: TextField(
+                                controller: myController,
+                                decoration: const InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  labelText: 'Enter Playlist Name',
+                                ),
                               ),
                               actions: [
                                 TextButton(
@@ -166,9 +187,14 @@ class _LibraryPageState extends State<LibraryPage> {
                                     if (myController.text.isNotEmpty) {
                                       if (await checkForDuplicatePlaylist(
                                           myController.text)) {
-                                        setState(() {
-                                          isNameValid = false;
-                                        });
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          const SnackBar(
+                                            content: Text(
+                                              'Playlist already exists. Try another name',
+                                            ),
+                                          ),
+                                        );
                                         _refreshIndicatorKey.currentState
                                             ?.show();
                                       } else {
@@ -176,8 +202,8 @@ class _LibraryPageState extends State<LibraryPage> {
                                         myController.text = '';
                                         _refreshIndicatorKey.currentState
                                             ?.show();
-                                        Navigator.of(context).pop();
                                       }
+                                      Navigator.of(context).pop();
                                     }
                                   },
                                 )
