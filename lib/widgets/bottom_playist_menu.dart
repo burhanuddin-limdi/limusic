@@ -8,6 +8,7 @@ import '../services/capitalize_string.dart';
 dynamic openBottomPlaylistMenu(context, song) {
   final myController = TextEditingController();
   return showModalBottomSheet(
+    useRootNavigator: true,
     context: context,
     backgroundColor: Colors.transparent,
     isScrollControlled: true,

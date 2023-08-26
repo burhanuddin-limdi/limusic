@@ -7,7 +7,7 @@ part 'root_event.dart';
 part 'root_state.dart';
 
 class RootBloc extends Bloc<RootEvent, RootState> {
-  RootBloc() : super(const ChangeSongState()) {
+  RootBloc() : super(ChangeSongState()) {
     on<ChangeSongEvent>(changSong);
   }
 

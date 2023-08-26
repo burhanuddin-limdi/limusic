@@ -10,6 +10,7 @@ dynamic openBottomSongMenu(context, dynamic song) {
     context: context,
     backgroundColor: Colors.transparent,
     isScrollControlled: true,
+    useRootNavigator: true,
     builder: (BuildContext context) {
       return BottomSongMenu(
         song: song,
