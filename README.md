@@ -23,6 +23,32 @@ Limusic a Flutter-based mobile application that provides users with the ability 
   <img src="assets/other_images/screenshot-4.jpg" alt="Screenshot 1" width="200">
 </div>
 
+
+# MusicStream Pro App
+
+...
+
+## Installation
+
+Follow these steps to get MusicStream Pro up and running on your device:
+
+1. Clone this repository to your local machine:
+
+   ```sh
+   git clone https://github.com/burhanuddin-limdi/limusic.git
+2. Navigate to the project directory:
+
+   ```sh
+   cd limusic
+3. Install the required dependencies:
+
+   ```sh
+   flutter pub get
+4. Run the app:
+
+   ```sh
+   flutter run
+
 ## Getting Started
 
 This project is a starting point for a Flutter application.
