@@ -26,7 +26,8 @@ Future<bool> playSong(dynamic song) async {
             ),
           );
         } catch (e) {
-          playSong(song);
+          print(e);
+          return false;
         }
       } else {
         try {
@@ -39,14 +40,16 @@ Future<bool> playSong(dynamic song) async {
             ),
           );
         } catch (e) {
-          playSong(song);
+          print(e);
+          return false;
         }
       }
     } else {
       try {
         await audioPlayer.setAudioSource(audioSource);
       } catch (e) {
-        playSong(song);
+        print(e);
+        return false;
       }
     }
     await audioPlayer.play();
@@ -57,11 +60,19 @@ Future<bool> playSong(dynamic song) async {
 }
 
 Future<dynamic> playNext({song, playlist}) async {
-  print(song);
-  print(playlist);
   int index = playlist.indexWhere((item) => item.id == song.id);
-  playSong(playlist[index + 1]);
-  return playlist[index + 1];
+  if (index < playlist.length - 1) {
+    playSong(playlist[index + 1]);
+    return playlist[index + 1];
+  }
+}
+
+Future<dynamic> playPrevious({song, playlist}) async {
+  int index = playlist.indexWhere((item) => item.id == song.id);
+  if (index >= 0) {
+    playSong(playlist[index - 1]);
+    return playlist[index - 1];
+  }
 }
 
 Stream<PositionData> get positionDataStream =>

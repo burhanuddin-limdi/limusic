@@ -194,7 +194,20 @@ class _MusicPlayerState extends State<MusicPlayer> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       IconButton(
-                        onPressed: () {},
+                        onPressed: () async {
+                          audioPlayer.stop();
+                          audioPlayer.seek(const Duration(milliseconds: 0));
+                          final newSong = await playPrevious(
+                            song: widget.song,
+                            playlist: widget.playlist,
+                          );
+                          if (newSong != null) {
+                            setState(() {
+                              widget.song = newSong;
+                            });
+                            widget.setSongState(newSong);
+                          }
+                        },
                         icon: const Icon(
                           Icons.skip_previous_rounded,
                           color: Colors.white,
@@ -262,10 +275,12 @@ class _MusicPlayerState extends State<MusicPlayer> {
                             song: widget.song,
                             playlist: widget.playlist,
                           );
-                          setState(() {
-                            widget.song = newSong;
-                          });
-                          widget.setSongState(newSong);
+                          if (newSong != null) {
+                            setState(() {
+                              widget.song = newSong;
+                            });
+                            widget.setSongState(newSong);
+                          }
                         },
                         icon: const Icon(
                           Icons.skip_next_rounded,
