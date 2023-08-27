@@ -1,6 +1,6 @@
-# Limusic: Ad free music streaming and downloading app.
+# Limusic.
 
-A new Flutter project.
+Limusic a Flutter-based mobile application that provides users with the ability to stream ad-free music and download their favorite tracks for offline listening. This app offers a seamless and enjoyable music experience, allowing users to explore, discover, and enjoy their favorite tunes on the go.
 
 ## Getting Started
 
