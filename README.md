@@ -1,4 +1,4 @@
-# limusic
+# Limusic: Ad free music streaming and downloading app.
 
 A new Flutter project.
 
