@@ -1,18 +1,23 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:limusic/blocs/root_bloc/root_bloc.dart';
 import 'package:limusic/services/audio_manager.dart';
 import 'package:limusic/utilities/formatter.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
 
-dynamic openMusicPlayer(context, song, playlist) {
+dynamic openMusicPlayer(ctx, song, playlist) {
   return showModalBottomSheet(
-    context: context,
-    backgroundColor: Theme.of(context).colorScheme.primary,
+    context: ctx,
+    backgroundColor: Theme.of(ctx).colorScheme.primary,
     isScrollControlled: true,
-    builder: (BuildContext context) {
+    builder: (context) {
       return MusicPlayer(
         song: song,
         playlist: playlist,
+        ctx: ctx,
       );
     },
   );
@@ -21,15 +26,24 @@ dynamic openMusicPlayer(context, song, playlist) {
 class MusicPlayer extends StatefulWidget {
   dynamic song;
   final List? playlist;
-  MusicPlayer({super.key, this.song, this.playlist});
+  final BuildContext? ctx;
+  MusicPlayer({super.key, this.song, this.playlist, this.ctx});
 
   @override
   State<MusicPlayer> createState() => _MusicPlayerState();
+  void setSongState(dynamic newSong) {
+    BlocProvider.of<RootBloc>(ctx!).add(
+      ChangeSongEvent(
+        currentSong: newSong,
+        currentPlaylist: playlist,
+      ),
+    );
+  }
 }
 
 class _MusicPlayerState extends State<MusicPlayer> {
   @override
-  Widget build(BuildContext context) {
+  Widget build(context) {
     return SizedBox(
       height: MediaQuery.of(context).size.height - 25,
       width: double.infinity,
@@ -242,6 +256,8 @@ class _MusicPlayerState extends State<MusicPlayer> {
                       ),
                       IconButton(
                         onPressed: () async {
+                          audioPlayer.stop();
+                          audioPlayer.seek(const Duration(milliseconds: 0));
                           final newSong = await playNext(
                             song: widget.song,
                             playlist: widget.playlist,
@@ -249,6 +265,7 @@ class _MusicPlayerState extends State<MusicPlayer> {
                           setState(() {
                             widget.song = newSong;
                           });
+                          widget.setSongState(newSong);
                         },
                         icon: const Icon(
                           Icons.skip_next_rounded,
