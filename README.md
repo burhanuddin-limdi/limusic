@@ -24,10 +24,6 @@ Limusic a Flutter-based mobile application that provides users with the ability 
 </div>
 
 
-# MusicStream Pro App
-
-...
-
 ## Installation
 
 Follow these steps to get MusicStream Pro up and running on your device:
