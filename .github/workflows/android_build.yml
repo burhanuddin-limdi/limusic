@@ -28,7 +28,7 @@ jobs:
         run: flutter pub get
 
       - name: Build APK
-        run: flutter build apk
+        run: flutter build apk --release
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v2
