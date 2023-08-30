@@ -20,9 +20,6 @@ Future<void> downloadSong(dynamic song) async {
     } else {
       status = await Permission.manageExternalStorage.request();
     }
-    // dynamic status = int.parse(androidInfo.version.release) < 13
-    //     ? await Permission.storage.request()
-    //     : Permission.manageExternalStorage.request();
 
     String fileName = song.title
         .toString()
@@ -38,7 +35,7 @@ Future<void> downloadSong(dynamic song) async {
     } else if (status == PermissionStatus.restricted) {
       openAppSettings();
     } else if (status == PermissionStatus.granted) {
-      final directory = Directory('/storage/emulated/0/Download');
+      final directory = Directory('/storage/emulated/0/Download/Limusic');
 
       if (!await directory.exists()) {
         await directory.create(recursive: true);

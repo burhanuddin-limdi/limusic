@@ -9,3 +9,10 @@ MediaItem mapToMediaItem(dynamic song, String songUrl) => MediaItem(
         'https://img.youtube.com/vi/${song.id}/hqdefault.jpg',
       ),
     );
+MediaItem offlineMedia(dynamic song, String songUrl) => MediaItem(
+      id: songUrl,
+      title: songUrl,
+      artUri: Uri.parse(
+        'assets/other_images/offline_music.jpg',
+      ),
+    );

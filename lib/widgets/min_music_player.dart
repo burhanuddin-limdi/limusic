@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:limusic/widgets/music_player.dart';
+import 'package:path/path.dart';
 
 import '../blocs/root_bloc/root_bloc.dart';
 import '../services/audio_manager.dart';
@@ -19,6 +20,30 @@ class _MinMusicPlayerState extends State<MinMusicPlayer> {
     return BlocBuilder<RootBloc, RootState>(
       builder: (context, state) {
         final songState = state as ChangeSongState;
+        bool isSongDownloaded = false;
+        String getTitle() {
+          try {
+            return state.song?.title.toString() ?? '';
+          } catch (e) {
+            isSongDownloaded = true;
+            return basename(state.song.path);
+          }
+        }
+
+        dynamic getImageUrl() {
+          try {
+            if (state.song.id != null) {
+              return NetworkImage(
+                  'https://img.youtube.com/vi/${state.song.id}/default.jpg');
+            }
+            isSongDownloaded = true;
+            return const AssetImage('assets/other_images/offline_music.jpg');
+          } catch (e) {
+            isSongDownloaded = true;
+            return const AssetImage('assets/other_images/offline_music.jpg');
+          }
+        }
+
         return Container(
           width: MediaQuery.of(context).size.width - 20,
           decoration: BoxDecoration(
@@ -30,6 +55,7 @@ class _MinMusicPlayerState extends State<MinMusicPlayer> {
               context,
               songState.song,
               songState.playlist,
+              isSongDownloaded,
             ),
             leading: Container(
               width: 55,
@@ -39,11 +65,8 @@ class _MinMusicPlayerState extends State<MinMusicPlayer> {
                 border: Border.all(
                     color: Theme.of(context).colorScheme.secondary, width: 1),
                 image: DecorationImage(
-                  image: NetworkImage(
-                    'https://img.youtube.com/vi/${state.song.id}/default.jpg',
-                  ),
-                  centerSlice: const Rect.fromLTRB(1, 1, 1, 1),
-                  fit: BoxFit.fill,
+                  image: getImageUrl(),
+                  fit: BoxFit.cover,
                 ),
               ),
             ),
@@ -54,7 +77,7 @@ class _MinMusicPlayerState extends State<MinMusicPlayer> {
                   color: Theme.of(context).colorScheme.secondary,
                 ),
                 overflow: TextOverflow.ellipsis,
-                state.song?.title.toString() ?? '',
+                getTitle(),
               ),
             ),
             trailing: StreamBuilder<PlayerState>(

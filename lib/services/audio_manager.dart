@@ -1,4 +1,5 @@
 import 'package:just_audio/just_audio.dart';
+import 'package:limusic/services/offline_music.dart';
 import 'package:limusic/utilities/mediaitem.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -56,18 +57,22 @@ Future<bool> playSong(dynamic song) async {
   }
 }
 
-Future<dynamic> playNext({song, playlist}) async {
-  int index = playlist.indexWhere((item) => item.id == song.id);
+Future<dynamic> playNext({song, playlist, isSongDownloaded}) async {
+  int index = playlist.indexWhere((item) => item == song);
   if (index < playlist.length - 1) {
-    playSong(playlist[index + 1]);
+    !isSongDownloaded
+        ? playSong(playlist[index + 1])
+        : playOfflineMusic(playlist[index + 1]);
     return playlist[index + 1];
   }
 }
 
-Future<dynamic> playPrevious({song, playlist}) async {
-  int index = playlist.indexWhere((item) => item.id == song.id);
+Future<dynamic> playPrevious({song, playlist, isSongDownloaded}) async {
+  int index = playlist.indexWhere((item) => item == song);
   if (index >= 0) {
-    playSong(playlist[index - 1]);
+    !isSongDownloaded
+        ? playSong(playlist[index - 1])
+        : playOfflineMusic(playlist[index - 1]);
     return playlist[index - 1];
   }
 }

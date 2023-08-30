@@ -8,9 +8,10 @@ import 'package:limusic/blocs/root_bloc/root_bloc.dart';
 import 'package:limusic/services/audio_manager.dart';
 import 'package:limusic/services/download_manager.dart';
 import 'package:limusic/utilities/formatter.dart';
+import 'package:path/path.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
 
-dynamic openMusicPlayer(ctx, song, playlist) {
+dynamic openMusicPlayer(ctx, song, playlist, isSongDownloaded) {
   return showModalBottomSheet(
     context: ctx,
     backgroundColor: Theme.of(ctx).colorScheme.primary,
@@ -20,6 +21,7 @@ dynamic openMusicPlayer(ctx, song, playlist) {
         song: song,
         playlist: playlist,
         ctx: ctx,
+        isSongDownloaded: isSongDownloaded,
       );
     },
   );
@@ -29,7 +31,9 @@ class MusicPlayer extends StatefulWidget {
   dynamic song;
   final List? playlist;
   final BuildContext? ctx;
-  MusicPlayer({super.key, this.song, this.playlist, this.ctx});
+  bool? isSongDownloaded;
+  MusicPlayer(
+      {super.key, this.song, this.playlist, this.ctx, this.isSongDownloaded});
 
   @override
   State<MusicPlayer> createState() => _MusicPlayerState();
@@ -48,7 +52,26 @@ class _MusicPlayerState extends State<MusicPlayer> {
   @override
   void initState() {
     super.initState();
-    songLiked = checkForSongLiked(widget.song.id.toString());
+    if (!widget.isSongDownloaded!) {
+      songLiked = checkForSongLiked(widget.song.id.toString());
+    }
+  }
+
+  String getTitle() {
+    if (!widget.isSongDownloaded!) {
+      return widget.song?.title.toString() ?? '';
+    } else {
+      return basename(widget.song.path);
+    }
+  }
+
+  dynamic getImageUrl() {
+    if (!widget.isSongDownloaded!) {
+      return NetworkImage(
+          'https://img.youtube.com/vi/${widget.song.id}/hqdefault.jpg');
+    } else {
+      return const AssetImage('assets/other_images/offline_music.jpg');
+    }
   }
 
   @override
@@ -111,7 +134,7 @@ class _MusicPlayerState extends State<MusicPlayer> {
                         maxWidth: MediaQuery.of(context).size.width - 50),
                     padding: const EdgeInsets.only(top: 30),
                     child: Text(
-                      formatSongTitle(widget.song.title.toString()),
+                      formatSongTitle(getTitle()),
                       overflow: TextOverflow.ellipsis,
                       textAlign: TextAlign.center,
                       style: TextStyle(
@@ -130,7 +153,9 @@ class _MusicPlayerState extends State<MusicPlayer> {
                     width: 250,
                     padding: const EdgeInsets.only(top: 15),
                     child: Text(
-                      formatSongTitle(widget.song.author.toString()),
+                      !widget.isSongDownloaded!
+                          ? formatSongTitle(widget.song.author.toString())
+                          : '',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: Theme.of(context).colorScheme.secondary,
@@ -188,9 +213,7 @@ class _MusicPlayerState extends State<MusicPlayer> {
                           borderRadius: BorderRadius.circular(999),
                           border: Border.all(color: Colors.black, width: 0.5),
                           image: DecorationImage(
-                            image: NetworkImage(
-                              'https://img.youtube.com/vi/${widget.song.id}/hqdefault.jpg',
-                            ),
+                            image: getImageUrl(),
                             centerSlice: const Rect.fromLTRB(1, 1, 1, 1),
                             fit: BoxFit.fill,
                           ),
@@ -239,9 +262,9 @@ class _MusicPlayerState extends State<MusicPlayer> {
                     audioPlayer.seek(const Duration(milliseconds: 0));
                     audioPlayer.stop();
                     final newSong = await playNext(
-                      song: widget.song,
-                      playlist: widget.playlist,
-                    );
+                        song: widget.song,
+                        playlist: widget.playlist,
+                        isSongDownloaded: widget.isSongDownloaded);
                     if (newSong != null) {
                       setState(() {
                         widget.song = newSong;
@@ -264,22 +287,23 @@ class _MusicPlayerState extends State<MusicPlayer> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        IconButton(
-                          onPressed: () => downloadSong(widget.song),
-                          icon: const Icon(
-                            Icons.download_rounded,
-                            color: Colors.white,
-                            size: 25,
+                        if (!widget.isSongDownloaded!)
+                          IconButton(
+                            onPressed: () => downloadSong(widget.song),
+                            icon: const Icon(
+                              Icons.download_rounded,
+                              color: Colors.white,
+                              size: 25,
+                            ),
                           ),
-                        ),
                         IconButton(
                           onPressed: () async {
                             audioPlayer.stop();
                             audioPlayer.seek(const Duration(milliseconds: 0));
                             final newSong = await playPrevious(
-                              song: widget.song,
-                              playlist: widget.playlist,
-                            );
+                                song: widget.song,
+                                playlist: widget.playlist,
+                                isSongDownloaded: widget.isSongDownloaded);
                             if (newSong != null) {
                               setState(() {
                                 widget.song = newSong;
@@ -357,24 +381,25 @@ class _MusicPlayerState extends State<MusicPlayer> {
                             size: 25,
                           ),
                         ),
-                        IconButton(
-                          onPressed: () {
-                            String sondId = widget.song.id.toString();
-                            songLiked
-                                ? onDislikeSong(sondId)
-                                : onLikeSong(sondId);
-                            setState(() {
-                              songLiked = checkForSongLiked(sondId);
-                            });
-                          },
-                          icon: Icon(
-                            songLiked
-                                ? Icons.favorite
-                                : Icons.favorite_border_rounded,
-                            color: Colors.white,
-                            size: 25,
+                        if (!widget.isSongDownloaded!)
+                          IconButton(
+                            onPressed: () {
+                              String sondId = widget.song.id.toString();
+                              songLiked
+                                  ? onDislikeSong(sondId)
+                                  : onLikeSong(sondId);
+                              setState(() {
+                                songLiked = checkForSongLiked(sondId);
+                              });
+                            },
+                            icon: Icon(
+                              songLiked
+                                  ? Icons.favorite
+                                  : Icons.favorite_border_rounded,
+                              color: Colors.white,
+                              size: 25,
+                            ),
                           ),
-                        ),
                       ],
                     ),
                   );

@@ -123,6 +123,13 @@ class RootPageState extends State<RootPage> {
                 ),
                 label: 'playlists',
               ),
+              BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.file_download_outlined,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+                label: 'downloads',
+              ),
             ],
           ),
         ],
