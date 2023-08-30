@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:limusic/blocs/refresh_page_bloc/refresh_page_bloc.dart';
+import 'package:limusic/blocs/root_bloc/root_bloc.dart';
+import 'package:limusic/pages/root_page.dart';
 import 'package:limusic/style/theme.dart';
-import './pages/root_page.dart';
-import 'blocs/root_bloc/root_bloc.dart';
 import 'package:just_audio_background/just_audio_background.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
 
@@ -37,7 +37,7 @@ class MyApp extends StatelessWidget {
       home: MultiBlocProvider(
         providers: [
           BlocProvider(create: (context) => RootBloc()),
-          BlocProvider(create: (context) => RefreshPageBloc())
+          BlocProvider(create: (context) => RefreshPageBloc()),
         ],
         child: const RootPage(),
       ),
