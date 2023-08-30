@@ -26,7 +26,6 @@ Future<bool> playSong(dynamic song) async {
             ),
           );
         } catch (e) {
-          print(e);
           return false;
         }
       } else {
@@ -40,7 +39,6 @@ Future<bool> playSong(dynamic song) async {
             ),
           );
         } catch (e) {
-          print(e);
           return false;
         }
       }
@@ -48,7 +46,6 @@ Future<bool> playSong(dynamic song) async {
       try {
         await audioPlayer.setAudioSource(audioSource);
       } catch (e) {
-        print(e);
         return false;
       }
     }

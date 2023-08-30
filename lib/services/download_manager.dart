@@ -13,7 +13,7 @@ Future<void> downloadSong(dynamic song) async {
 
     final songUrl = await getSong(song.id.toString(), song.isLive);
 
-    final status;
+    final PermissionStatus status;
 
     if (androidVersion < 13) {
       status = await Permission.storage.request();

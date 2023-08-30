@@ -252,7 +252,6 @@ class _MusicPlayerState extends State<MusicPlayer> {
 
                   audioPlayer.processingStateStream.listen((state) {
                     if (state == ProcessingState.completed) {
-                      print('Song has finished playing!');
                       playNextSong();
                     }
                   });

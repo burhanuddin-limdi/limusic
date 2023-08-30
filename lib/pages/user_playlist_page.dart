@@ -8,7 +8,6 @@ class UserPlaylistPage extends StatelessWidget {
   const UserPlaylistPage({super.key, this.playlist});
   @override
   Widget build(BuildContext context) {
-    print(playlist);
     return SingleChildScrollView(
       child: Column(
         children: [
