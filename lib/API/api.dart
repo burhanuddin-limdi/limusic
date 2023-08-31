@@ -184,7 +184,6 @@ Future<List<Map<String, int>>> getSkipSegments(String id) async {
       return [];
     }
   } catch (e) {
-    // Logger.log('Error in getSkipSegments: $e $stack');
     return [];
   }
 }
@@ -207,7 +206,6 @@ Future<List> getSearchSuggestions(String query) async {
     final res = jsonDecode(response.body)[1] as List;
     return res;
   } catch (e) {
-    // Logger.log('Error in getSearchSuggestions: $e');
     return [];
   }
 }

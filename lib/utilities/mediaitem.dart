@@ -1,4 +1,5 @@
 import 'package:audio_service/audio_service.dart';
+import 'package:path/path.dart';
 
 MediaItem mapToMediaItem(dynamic song, String songUrl) => MediaItem(
       id: song.id.toString(),
@@ -11,7 +12,7 @@ MediaItem mapToMediaItem(dynamic song, String songUrl) => MediaItem(
     );
 MediaItem offlineMedia(dynamic song, String songUrl) => MediaItem(
       id: songUrl,
-      title: songUrl,
+      title: basename(songUrl),
       artUri: Uri.parse(
         'assets/other_images/offline_music.jpg',
       ),

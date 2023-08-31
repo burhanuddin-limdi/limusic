@@ -4,7 +4,6 @@ import '../blocs/root_bloc/root_bloc.dart';
 import '../pages/playlist_page.dart';
 
 class PlaylistCard extends StatelessWidget {
-  // final RootBloc rootBloc;
   final dynamic playlist;
   const PlaylistCard({super.key, this.playlist});
 
@@ -19,13 +18,10 @@ class PlaylistCard extends StatelessWidget {
               builder: (context) => PlaylistPage(playlist: playlist),
             ),
           ),
-          // rootBloc.add(ChangeRootRouteEvent(PlaylistPage(playlist: playlist))),
           child: SizedBox(
             width: 150.0,
             height: 150.0,
             child: Container(
-              // width: 700,
-              // height: 00,
               margin:
                   const EdgeInsets.only(left: 0, right: 17, top: 0, bottom: 10),
               decoration: BoxDecoration(

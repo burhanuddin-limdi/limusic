@@ -21,9 +21,7 @@ Future<void> initialisation() async {
     androidNotificationChannelName: 'Audio Playback',
     androidNotificationOngoing: true,
   );
-
   await FlutterDownloader.initialize(debug: true, ignoreSsl: true);
-  // Hive.box('user').clear();
 }
 
 class MyApp extends StatelessWidget {

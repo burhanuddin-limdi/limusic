@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:limusic/widgets/playlist_card.dart';
 
 class PlaylistCarousel extends StatelessWidget {
-  // final RootBloc rootBloc;
   final dynamic playlist;
   const PlaylistCarousel({super.key, this.playlist});
 

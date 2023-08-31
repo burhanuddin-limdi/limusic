@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:limusic/pages/downloads_page.dart';
 import 'package:limusic/pages/home_page.dart';
 import 'package:limusic/pages/library_page.dart';
-// import 'package:limusic/pages/playlist_page.dart';
 import 'package:limusic/pages/search_page.dart';
 
 class RoutePaths {

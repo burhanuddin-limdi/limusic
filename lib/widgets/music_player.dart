@@ -32,8 +32,13 @@ class MusicPlayer extends StatefulWidget {
   final List? playlist;
   final BuildContext? ctx;
   bool? isSongDownloaded;
-  MusicPlayer(
-      {super.key, this.song, this.playlist, this.ctx, this.isSongDownloaded});
+  MusicPlayer({
+    super.key,
+    this.song,
+    this.playlist,
+    this.ctx,
+    this.isSongDownloaded,
+  });
 
   @override
   State<MusicPlayer> createState() => _MusicPlayerState();
@@ -82,7 +87,7 @@ class _MusicPlayerState extends State<MusicPlayer> {
           colors: [
             Theme.of(context).colorScheme.secondary,
             Theme.of(context).colorScheme.primary,
-          ], // Replace with your desired colors
+          ],
           center: Alignment.center,
           radius: 0.6,
           focal: Alignment.center,
@@ -100,7 +105,6 @@ class _MusicPlayerState extends State<MusicPlayer> {
         builder: (context, snapshot) {
           final positionData = snapshot.data;
           if (positionData == null) return const SizedBox.shrink();
-
           final positionText =
               formatDuration(positionData.position.inMilliseconds);
           final durationText =

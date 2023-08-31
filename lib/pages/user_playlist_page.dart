@@ -27,35 +27,36 @@ class UserPlaylistPage extends StatelessWidget {
           ),
           const Divider(),
           FutureBuilder(
-              future: getUserPlaylistSongs(playlist['value']),
-              builder: (context, AsyncSnapshot<dynamic> snapshot) {
-                switch (snapshot.connectionState) {
-                  case ConnectionState.waiting:
-                    return const CircularProgressIndicator();
-                  case ConnectionState.done:
-                    if (!snapshot.hasData) {
-                      return const Text('Error');
-                    }
-                    return Column(
-                      children: [
-                        ListView.builder(
-                          scrollDirection: Axis.vertical,
-                          shrinkWrap: true,
-                          physics: const ClampingScrollPhysics(),
-                          itemCount: snapshot.data.length as int,
-                          itemBuilder: (context, index) {
-                            return SongBar(
-                              song: snapshot.data[index],
-                              playlist: snapshot.data,
-                            );
-                          },
-                        ),
-                      ],
-                    );
-                  default:
-                    return const SizedBox.shrink();
-                }
-              })
+            future: getUserPlaylistSongs(playlist['value']),
+            builder: (context, AsyncSnapshot<dynamic> snapshot) {
+              switch (snapshot.connectionState) {
+                case ConnectionState.waiting:
+                  return const CircularProgressIndicator();
+                case ConnectionState.done:
+                  if (!snapshot.hasData) {
+                    return const Text('Error');
+                  }
+                  return Column(
+                    children: [
+                      ListView.builder(
+                        scrollDirection: Axis.vertical,
+                        shrinkWrap: true,
+                        physics: const ClampingScrollPhysics(),
+                        itemCount: snapshot.data.length as int,
+                        itemBuilder: (context, index) {
+                          return SongBar(
+                            song: snapshot.data[index],
+                            playlist: snapshot.data,
+                          );
+                        },
+                      ),
+                    ],
+                  );
+                default:
+                  return const SizedBox.shrink();
+              }
+            },
+          )
         ],
       ),
     );

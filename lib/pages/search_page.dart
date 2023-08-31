@@ -40,11 +40,7 @@ class _SearchPageState extends State<SearchPage> {
       _fetchingSongs.value = true;
     }
 
-    try {
-      _searchResult = await fetchSongsList(query);
-    } catch (e) {
-      // Logger.log('Error while searching online songs: $e');
-    }
+    _searchResult = await fetchSongsList(query);
 
     if (_fetchingSongs.value) {
       _fetchingSongs.value = false;

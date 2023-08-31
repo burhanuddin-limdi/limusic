@@ -1,7 +1,3 @@
-// import 'package:musify/utilities/mediaitem.dart';
-// import 'package:on_audio_query/on_audio_query.dart';
-// import 'package:youtube_explode_dart/youtube_explode_dart.dart';
-
 String formatSongTitle(String title) {
   final patterns = {
     RegExp(r'\[.*\]'): '',
@@ -19,39 +15,6 @@ String formatSongTitle(String title) {
       .replaceAll('&#039;', "'")
       .replaceAll('&quot;', '"');
 }
-
-// Map<String, dynamic> returnSongLayout(dynamic index, Video song) => {
-//       'id': index,
-//       'ytid': song.id.toString(),
-//       'title': formatSongTitle(
-//         song.title.split('-')[song.title.split('-').length - 1],
-//       ),
-//       'artist': song.title.split('-')[0],
-//       'image': song.thumbnails.standardResUrl,
-//       'lowResImage': song.thumbnails.lowResUrl,
-//       'highResImage': song.thumbnails.maxResUrl,
-//       'isLive': song.isLive,
-//     };
-
-// Map<String, dynamic> returnSongLayoutFromAudioModel(
-//   dynamic index,
-//   AudioModel song,
-// ) {
-//   return {
-//     'id': index,
-//     'ytid': '',
-//     'title': song.displayNameWOExt,
-//     'image': noImageVar,
-//     'artist': song.artist ?? '',
-//     'lowResImage': noImageVar,
-//     'highResImage': noImageVar,
-//     'songUrl': song.data,
-//     'localSongId': song.id,
-//     'isLive': false,
-//   };
-// }
-
-// String? getSongId(String url) => VideoId.parseVideoId(url);
 
 String formatDuration(int milliseconds) {
   final duration = Duration(milliseconds: milliseconds);
