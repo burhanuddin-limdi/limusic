@@ -70,12 +70,19 @@ class _MusicPlayerState extends State<MusicPlayer> {
     }
   }
 
-  dynamic getImageUrl() {
+  dynamic getImage() {
     if (!widget.isSongDownloaded!) {
-      return NetworkImage(
-          'https://img.youtube.com/vi/${widget.song.id}/hqdefault.jpg');
+      return DecorationImage(
+        image: NetworkImage(
+            'https://img.youtube.com/vi/${widget.song.id}/hqdefault.jpg'),
+        centerSlice: const Rect.fromLTRB(1, 1, 1, 1),
+        fit: BoxFit.fill,
+      );
     } else {
-      return const AssetImage('assets/other_images/offline_music.jpg');
+      return const DecorationImage(
+        image: AssetImage('assets/other_images/offline_music.jpg'),
+        fit: BoxFit.fill,
+      );
     }
   }
 
@@ -216,11 +223,7 @@ class _MusicPlayerState extends State<MusicPlayer> {
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(999),
                           border: Border.all(color: Colors.black, width: 0.5),
-                          image: DecorationImage(
-                            image: getImageUrl(),
-                            centerSlice: const Rect.fromLTRB(1, 1, 1, 1),
-                            fit: BoxFit.fill,
-                          ),
+                          image: getImage(),
                         ),
                       ),
                     ),
