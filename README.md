@@ -15,11 +15,11 @@ Limusic a Flutter-based mobile application that provides users with the ability 
 ## Screenshots
 
 <div style="display: flex; justify-content: space-between;">
-  <img src="assets/other_images/screenshot-1.jpg" alt="Screenshot 1" width="200">
-  <img src="assets/other_images/screenshot-2.jpg" alt="Screenshot 2" width="200">
-  <img src="assets/other_images/screenshot-3.jpg" alt="Screenshot 3" width="200">
-  <img src="assets/other_images/screenshot-4.jpg" alt="Screenshot 4" width="200">
-  <img src="assets/other_images/screenshot-5.jpg" alt="Screenshot 5" width="200">
+  <img src="assets/other_images/screenshot-1.jpg" alt="Screenshot 1" width="150">
+  <img src="assets/other_images/screenshot-2.jpg" alt="Screenshot 2" width="150">
+  <img src="assets/other_images/screenshot-3.jpg" alt="Screenshot 3" width="150">
+  <img src="assets/other_images/screenshot-4.jpg" alt="Screenshot 4" width="150">
+  <img src="assets/other_images/screenshot-5.jpg" alt="Screenshot 5" width="150">
 </div>
 
 ## Download The App
