@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import '../blocs/root_bloc/root_bloc.dart';
-import '../pages/playlist_page.dart';
+import 'package:limusic/services/router.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class PlaylistCard extends StatelessWidget {
   final dynamic playlist;
@@ -12,12 +13,7 @@ class PlaylistCard extends StatelessWidget {
     return BlocBuilder<RootBloc, RootState>(
       builder: (context, state) {
         return GestureDetector(
-          onTap: () => Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => PlaylistPage(playlist: playlist),
-            ),
-          ),
+          onTap: () => context.push(RoutePaths.nestedPlaylist, extra: playlist),
           child: SizedBox(
             width: 150.0,
             height: 150.0,

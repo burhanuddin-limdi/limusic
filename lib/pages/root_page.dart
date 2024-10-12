@@ -1,39 +1,27 @@
+import 'dart:ui';
 import 'dart:async';
 import 'dart:isolate';
-import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_downloader/flutter_downloader.dart';
-import 'package:flutter_snake_navigationbar/flutter_snake_navigationbar.dart';
 import 'package:limusic/blocs/root_bloc/root_bloc.dart';
 import 'package:limusic/services/download_manager.dart';
-import 'package:limusic/services/router_service.dart';
-import 'package:limusic/widgets/min_music_player.dart';
+import 'package:limusic/widgets/root_navigation_bar.dart';
+import 'package:flutter_downloader/flutter_downloader.dart';
+import 'package:limusic/blocs/refresh_page_bloc/refresh_page_bloc.dart';
 
 class RootPage extends StatefulWidget {
-  const RootPage({super.key});
+  final StatefulNavigationShell navigationShell;
+
+  const RootPage({required this.navigationShell, Key? key})
+      : super(key: key ?? const ValueKey<String>('root_page'));
 
   @override
-  RootPageState createState() => RootPageState();
+  State<RootPage> createState() => _RootPageState();
 }
 
-final _navigatorKey = GlobalKey<NavigatorState>();
-
-class RootPageState extends State<RootPage> {
-  List routes = ['/home', '/library', '/search'];
-
-  int selectedIndex = 0;
-  SnakeBarBehaviour snakeBarStyle = SnakeBarBehaviour.floating;
-  SnakeShape snakeShape = SnakeShape.circle;
-  ShapeBorder? bottomBarShape = const RoundedRectangleBorder(
-    side: BorderSide(
-      color: Colors.black,
-      width: 0.5,
-      strokeAlign: BorderSide.strokeAlignInside,
-    ),
-  );
-
+class _RootPageState extends State<RootPage> {
   final ReceivePort _port = ReceivePort();
   int progress = 0;
   @override
@@ -63,76 +51,16 @@ class RootPageState extends State<RootPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Navigator(
-        key: _navigatorKey,
-        initialRoute: RoutePaths.home,
-        onGenerateRoute: RouterService.generateRoute,
-      ),
-      bottomNavigationBar: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          BlocBuilder<RootBloc, RootState>(
-            builder: (context, state) {
-              final songState = state as ChangeSongState;
-              return Visibility(
-                visible: songState.song != null ? true : false,
-                child: const MinMusicPlayer(),
-              );
-            },
-          ),
-          SnakeNavigationBar.color(
-            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-            behaviour: snakeBarStyle,
-            snakeShape: snakeShape,
-            shape: bottomBarShape,
-            snakeViewColor: Theme.of(context).colorScheme.secondary,
-            unselectedItemColor: Theme.of(context).colorScheme.secondary,
-            selectedItemColor: snakeShape == SnakeShape.indicator
-                ? Theme.of(context).colorScheme.primary
-                : null,
-            showUnselectedLabels: false,
-            showSelectedLabels: false,
-            currentIndex: selectedIndex,
-            onTap: (index) {
-              setState(() => selectedIndex = index);
-              _navigatorKey.currentState!.pushNamedAndRemoveUntil(
-                destinations[index],
-                ModalRoute.withName(destinations[index]),
-              );
-            },
-            items: [
-              BottomNavigationBarItem(
-                icon: Icon(
-                  Icons.home,
-                  color: Theme.of(context).colorScheme.primary,
-                ),
-                label: 'home',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(
-                  Icons.search,
-                  color: Theme.of(context).colorScheme.primary,
-                ),
-                label: 'search',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(
-                  Icons.library_music,
-                  color: Theme.of(context).colorScheme.primary,
-                ),
-                label: 'playlists',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(
-                  Icons.file_download_outlined,
-                  color: Theme.of(context).colorScheme.primary,
-                ),
-                label: 'downloads',
-              ),
-            ],
-          ),
-        ],
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => RootBloc()),
+        BlocProvider(create: (context) => RefreshPageBloc()),
+      ],
+      child: Scaffold(
+        body: widget.navigationShell,
+        bottomNavigationBar: RootNavigationBar(
+          navigationShell: widget.navigationShell,
+        ),
       ),
     );
   }

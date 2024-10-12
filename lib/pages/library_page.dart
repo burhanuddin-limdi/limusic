@@ -1,11 +1,12 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'package:limusic/API/api.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:limusic/services/router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:limusic/blocs/refresh_page_bloc/refresh_page_bloc.dart';
-import 'package:limusic/pages/user_playlist_page.dart';
 import 'package:limusic/widgets/library_menu.dart';
-import '../API/api.dart';
+import 'package:limusic/blocs/refresh_page_bloc/refresh_page_bloc.dart';
 
 class LibraryPage extends StatefulWidget {
   const LibraryPage({super.key});
@@ -100,13 +101,9 @@ class _LibraryPageState extends State<LibraryPage> {
                                     );
                                   }
                                 },
-                                onTap: () => Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => UserPlaylistPage(
-                                      playlist: snapshot.data?[index],
-                                    ),
-                                  ),
+                                onTap: () => context.go(
+                                  RoutePaths.nestedUserPlaylist,
+                                  extra: snapshot.data?[index],
                                 ),
                                 child: SizedBox(
                                   width: 150.0,

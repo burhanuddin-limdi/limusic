@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hive_flutter/hive_flutter.dart';
-import 'package:limusic/blocs/refresh_page_bloc/refresh_page_bloc.dart';
-import 'package:limusic/blocs/root_bloc/root_bloc.dart';
-import 'package:limusic/pages/root_page.dart';
 import 'package:limusic/style/theme.dart';
-import 'package:just_audio_background/just_audio_background.dart';
+import 'package:limusic/services/router.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
+import 'package:just_audio_background/just_audio_background.dart';
 
 void main() async {
   await initialisation();
@@ -17,9 +14,9 @@ Future<void> initialisation() async {
   await Hive.initFlutter();
   await Hive.openBox('user');
   await JustAudioBackground.init(
-    androidNotificationChannelId: 'com.ryanheise.bg_demo.channel.audio',
-    androidNotificationChannelName: 'Audio Playback',
     androidNotificationOngoing: true,
+    androidNotificationChannelName: 'Audio Playback',
+    androidNotificationChannelId: 'com.ryanheise.bg_demo.channel.audio',
   );
   await FlutterDownloader.initialize(debug: true, ignoreSsl: true);
 }
@@ -29,16 +26,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       title: 'Limusic',
       theme: themeData(),
-      home: MultiBlocProvider(
-        providers: [
-          BlocProvider(create: (context) => RootBloc()),
-          BlocProvider(create: (context) => RefreshPageBloc()),
-        ],
-        child: const RootPage(),
-      ),
+      routerConfig: router,
       debugShowCheckedModeBanner: false,
     );
   }
