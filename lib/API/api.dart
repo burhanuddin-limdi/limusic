@@ -133,6 +133,7 @@ Future<String> getSong(String songId, bool isLive) async {
       return streamInfo;
     } else {
       final manifest = await yt.videos.streamsClient.getManifest(songId);
+      print(manifest);
       final audioStream = manifest.audioOnly.withHighestBitrate();
       return audioStream.url.toString();
     }

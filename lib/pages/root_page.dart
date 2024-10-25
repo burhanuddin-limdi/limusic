@@ -10,6 +10,7 @@ import 'package:limusic/services/download_manager.dart';
 import 'package:limusic/widgets/root_navigation_bar.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:limusic/blocs/refresh_page_bloc/refresh_page_bloc.dart';
+import 'package:limusic/widgets/scaffold_background.dart';
 
 class RootPage extends StatefulWidget {
   final StatefulNavigationShell navigationShell;
@@ -57,7 +58,8 @@ class _RootPageState extends State<RootPage> {
         BlocProvider(create: (context) => RefreshPageBloc()),
       ],
       child: Scaffold(
-        body: widget.navigationShell,
+        body: Stack(
+            children: [const ScaffoldBackground(), widget.navigationShell]),
         bottomNavigationBar: RootNavigationBar(
           navigationShell: widget.navigationShell,
         ),

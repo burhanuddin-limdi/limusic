@@ -8,8 +8,10 @@ import '../API/api.dart';
 AudioPlayer audioPlayer = AudioPlayer();
 
 Future<bool> playSong(dynamic song) async {
+  print(song);
   await audioPlayer.stop();
   final songUrl = await getSong(song.id.toString(), song.isLive);
+  print(songUrl);
   if (songUrl.isNotEmpty) {
     final audioSource = AudioSource.uri(
       Uri.parse(songUrl),
